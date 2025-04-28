@@ -38,6 +38,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:application",
           "options": {
+            "poll": 1000,
             "outputPath": "dist/frontend",
             "index": "src/index.html",
             "browser": "src/main.ts",
