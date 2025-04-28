@@ -1,6 +1,8 @@
 from app.routes import api_bp
 from flask import request
 
+# Rutas y endpoints relativos a la api de products
+
 @api_bp.route('/products', methods=['GET'])
 def get_sections():
     return "<h1> get sections working </h1>"
@@ -8,7 +10,7 @@ def get_sections():
 @api_bp.route('/products/<section>', methods=['GET','POST'])
 def section_products(section: str) -> str:
     if request.method == "GET":
-        return f"<h1> get Products of section {section} working </h1>"
+        return f"<h1> get Products of section {section} working and i DONT love it </h1>"
     else:
         return f" post Products of section {section} working "
         

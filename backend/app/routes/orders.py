@@ -1,6 +1,7 @@
 from app.routes import api_bp
 from flask import request, Response
 
+# Rutas y endpoints relativos a la api de orders
 
 @api_bp.route('/orders', methods=['GET', 'POST'])
 def get_or_create_orders() -> str:
