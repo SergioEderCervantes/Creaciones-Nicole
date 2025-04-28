@@ -1,16 +1,28 @@
-version: '0.1'
+version: '0.2'
 
 services:
+  db:
+    image: postgres:17
+    restart: always
+    env_file:
+      - .env
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./db/CreacionesNicole.sql:/docker-entrypoint-initdb.d/init.sql
   backend:
     build: 
       context: ./backend
       dockerfile: Dockerfile
     ports:
       - "5000:5000"
-    environment:
-      - FLASK_ENV=development
-      - FLASK_APP=wsgi
-      - FLASK_DEBUG=1
-      - PYTHONUNBUFFERED=1
+    env_file:
+      - .env
     volumes:
       - ./backend:/app
+    depends_on:
+      - db
+
+volumes:
+  postgres_data:
