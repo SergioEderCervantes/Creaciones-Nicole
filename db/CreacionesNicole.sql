@@ -1,7 +1,3 @@
-CREATE DATABASE CreacionesNicole;
-
-USE CreacionesNicole;
-
 -- Tabla categorias
 CREATE TABLE categorias (
     id SERIAL PRIMARY KEY,
