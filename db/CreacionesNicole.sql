@@ -25,6 +25,7 @@ CREATE TABLE admin (
 -- Tabla pedidos 
 CREATE TABLE pedidos (
     id SERIAL PRIMARY KEY,
+    nombre VARCHAR(255) NOT NULL, 
     estado VARCHAR(50) NOT NULL,
     descripcion TEXT,
     monto DECIMAL(10, 2) NOT NULL,
