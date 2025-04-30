@@ -145,3 +145,8 @@ dist
 # pycache
 
 **/__pycache__/
+
+
+# Quitar .angular
+
+**/.angular/
