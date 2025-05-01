@@ -1,33 +1,33 @@
 -- Tabla categorias
-CREATE TABLE categorias (
+CREATE TABLE category (
     id SERIAL PRIMARY KEY,
-    nombre VARCHAR(255) NOT NULL,
-    descripcion TEXT
+    name VARCHAR(255) NOT NULL,
+    description TEXT
 );
 
 -- Tabla productos
-CREATE TABLE productos (
+CREATE TABLE product (
     id SERIAL PRIMARY KEY,
-    categoria_id INTEGER NOT NULL,
-    nombre VARCHAR(255) NOT NULL,
-    descripcion TEXT,
-    imagen VARCHAR(255),
-    FOREIGN KEY (categoria_id) REFERENCES categorias(id) ON DELETE RESTRICT
+    category_id INTEGER NOT NULL,
+    name VARCHAR(255) NOT NULL,
+    description TEXT,
+    image VARCHAR(255),
+    FOREIGN KEY (category_id) REFERENCES category(id) ON DELETE RESTRICT
 );
 
 -- Tabla admin
 CREATE TABLE admin (
     id SERIAL PRIMARY KEY,
-    nombre VARCHAR(255) NOT NULL,
-    contraseña VARCHAR(255) NOT NULL
+    name VARCHAR(255) NOT NULL,
+    password VARCHAR(255) NOT NULL
 );
 
 -- Tabla pedidos 
-CREATE TABLE pedidos (
+CREATE TABLE orders (
     id SERIAL PRIMARY KEY,
-    nombre VARCHAR(255) NOT NULL, 
-    estado VARCHAR(50) NOT NULL,
-    descripcion TEXT,
-    monto DECIMAL(10, 2) NOT NULL,
-    fecha_entrega DATE
+    name VARCHAR(255) NOT NULL, 
+    state VARCHAR(50) NOT NULL,
+    description TEXT,
+    amount DECIMAL(10, 2) NOT NULL,
+    delivery_date DATE
 );
