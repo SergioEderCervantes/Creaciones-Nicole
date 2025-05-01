@@ -125,7 +125,7 @@ def CrudFactory(model: Model):
         async def get_many_by_ids(cls, session: AsyncSession, ids: list[str | int] = None, column: str = "id", with_for_update: bool = False) -> list[Model]:
             """Fetches multiple records from the database based on a column value and
             returns them. Raises an exception if the column doesn't exist.
-
+            if there's no id's or column specified, it returns all records from the table
             Args:
                 session (AsyncSession): SQLAlchemy async session
                 ids (list[str  |  int], optional): list of values to search for in
@@ -198,8 +198,7 @@ def CrudFactory(model: Model):
                 )
                 
         @classmethod
-        async def update_many_by_ids( cls, session: AsyncSession, updates: dict[str | int, Schema], column: str = "id", return_models: bool = False,
-        ) -> list[Model] | bool:
+        async def update_many_by_ids( cls, session: AsyncSession, updates: dict[str | int, Schema], column: str = "id", return_models: bool = False,) -> list[Model] | bool:
             """Updates multiple records in the database based on a column value and
             returns the updated records. Raises an exception if the column doesn't
             exist.

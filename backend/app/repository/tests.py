@@ -39,8 +39,3 @@ async def test2():
         print(category)
         print(category.description)
         
-
-if __name__ == "__main__":
-    import asyncio
-    # asyncio.run(test())
-    asyncio.run(test2())
