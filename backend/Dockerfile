@@ -15,6 +15,6 @@ COPY . .
 EXPOSE 5000
 
 # Comando para ejecutar todo
-# CMD [ "flask", "run", "--host=0.0.0.0", "--debug"]
+CMD [ "flask", "run", "--host=0.0.0.0", "--debug"]
 
-CMD [ "bash" ]
+# CMD [ "bash" ]

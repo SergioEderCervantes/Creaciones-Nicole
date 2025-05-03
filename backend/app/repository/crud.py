@@ -1,7 +1,6 @@
 from sqlalchemy import delete, select
 from sqlalchemy.exc import IntegrityError
-from sqlalchemy.ext.asyncio import AsyncSession
-
+from sqlalchemy.orm import Session
 from repository.models import Base, BaseModel
 
 Model = Base 
@@ -20,14 +19,14 @@ class NotFoundException(Exception):
 
 
 def CrudFactory(model: Model):
-    class AsyncCrud:
+    class Crud:
         @classmethod
-        async def create(cls,session: AsyncSession,data:Schema) ->Model:
+        def create(cls,session: Session,data:Schema) ->Model:
             """Accepts a Pydantic model, creates a new record in the database, catches
             any integrity errors, and returns the record.
 
             Args:
-                session (AsyncSession): SQLAlchemy async session
+                session (Session): SQLAlchemy session
                 data (Schema): Pydantic model
 
             Raises:
@@ -40,8 +39,8 @@ def CrudFactory(model: Model):
             try:
                 db_model = model(**data.model_dump())
                 session.add(db_model)
-                await session.commit()
-                await session.refresh(db_model)
+                session.commit()
+                session.refresh(db_model)
                 return db_model
             except IntegrityError:
                 raise IntegrityConflictException(
@@ -51,12 +50,12 @@ def CrudFactory(model: Model):
                 raise CustomModelsException(f"Unknown error occurred: {e}") from e
             
         @classmethod
-        async def create_many(cls,session: AsyncSession,data: list[Schema],return_models: bool = False) -> list[Model] | bool:
+        def create_many(cls,session: Session,data: list[Schema],return_models: bool = False) -> list[Model] | bool:
             """Accepts a list of Pydantic models, creates a bunch of new records in the database, catches
             any integrity errors, and returns the records.
 
             Args:
-                session (AsyncSession): SQLAlchemy async session
+                session (Session): SQLAlchemy session
                 data (list[Schema]): list of Pydantic models
                 return_models (bool, optional): Should the created models be returned
                     or a boolean indicating they have been created. Defaults to False.
@@ -71,7 +70,7 @@ def CrudFactory(model: Model):
             db_models = [model(**d.model_dump()) for d in data]
             try:
                 session.add_all(db_models)
-                await session.commit()
+                session.commit()
             except IntegrityError:
                 raise IntegrityConflictException(
                     f"{model.__tablename__} conflict with existing data.",
@@ -83,18 +82,18 @@ def CrudFactory(model: Model):
                 return True
 
             for m in db_models:
-                await session.refresh(m)
+                session.refresh(m)
 
             return db_models
         
         @classmethod
-        async def get_one_by_id( cls, session: AsyncSession, id_: str | int, column: str = "id", with_for_update: bool = False) -> Model:
+        def get_one_by_id( cls, session: Session, id_: str | int, column: str = "id", with_for_update: bool = False) -> Model:
             """Fetches one record from the database based on a column value and returns
             it, or returns None if it does not exist. Raises an exception if the column
             doesn't exist.
 
             Args:
-                session (AsyncSession): SQLAlchemy async session
+                session (Session): SQLAlchemy session
                 id_ (str | int): value to search for in `column`.
                 column (str, optional): the column name in which to search.
                     Defaults to "id".
@@ -118,16 +117,27 @@ def CrudFactory(model: Model):
             if with_for_update:
                 q = q.with_for_update()
 
-            results = await session.execute(q)
-            return results.unique().scalar_one_or_none()
+            results = session.execute(q).scalars().all()
+            print(results)
+            if not results:
+                # Sin resultado
+                print("Retornando NONE")
+                return None
+            if len(results) == 1:
+                # Resultado Unico
+                print("Retornando UNICO VALOR")
+                return results[0]
+            # Multiples resultados
+            print("Retornando MULTIPLES VALORES")
+            return results
         
         @classmethod
-        async def get_many_by_ids(cls, session: AsyncSession, ids: list[str | int] = None, column: str = "id", with_for_update: bool = False) -> list[Model]:
+        def get_many_by_ids(cls, session: Session, ids: list[str | int] = None, column: str = "id", with_for_update: bool = False) -> list[Model]:
             """Fetches multiple records from the database based on a column value and
             returns them. Raises an exception if the column doesn't exist.
             if there's no id's or column specified, it returns all records from the table
             Args:
-                session (AsyncSession): SQLAlchemy async session
+                session (Session): SQLAlchemy session
                 ids (list[str  |  int], optional): list of values to search for in
                     `column`. Defaults to None.
                 column (str, optional): the column name in which to search
@@ -154,17 +164,17 @@ def CrudFactory(model: Model):
             if with_for_update:
                 q = q.with_for_update()
 
-            rows = await session.execute(q)
+            rows = session.execute(q)
             return rows.unique().scalars().all()
         
         @classmethod
-        async def update_by_id( cls, session: AsyncSession, data: Schema, id_: str | int, column: str = "id") -> Model:
+        def update_by_id( cls, session: Session, data: Schema, id_: str | int, column: str = "id") -> Model:
             """Updates a record in the database based on a column value and returns the
             updated record. Raises an exception if the record isn't found or if the
             column doesn't exist.
 
             Args:
-                session (AsyncSession): SQLAlchemy async session
+                session (Session): SQLAlchemy session
                 data (Schema): Pydantic schema for the updated data.
                 id_ (str | int): value to search for in `column`
                 column (str, optional): the column name in which to search
@@ -176,7 +186,7 @@ def CrudFactory(model: Model):
             Returns:
                 Model: updated SQLAlchemy model
             """
-            db_model = await cls.get_one_by_id(
+            db_model = cls.get_one_by_id(
                 session, id_, column=column, with_for_update=True
             )
             if not db_model:
@@ -189,8 +199,8 @@ def CrudFactory(model: Model):
                 setattr(db_model, k, v)
 
             try:
-                await session.commit()
-                await session.refresh(db_model)
+                session.commit()
+                session.refresh(db_model)
                 return db_model
             except IntegrityError:
                 raise IntegrityConflictException(
@@ -198,13 +208,13 @@ def CrudFactory(model: Model):
                 )
                 
         @classmethod
-        async def update_many_by_ids( cls, session: AsyncSession, updates: dict[str | int, Schema], column: str = "id", return_models: bool = False,) -> list[Model] | bool:
+        def update_many_by_ids( cls, session: Session, updates: dict[str | int, Schema], column: str = "id", return_models: bool = False,) -> list[Model] | bool:
             """Updates multiple records in the database based on a column value and
             returns the updated records. Raises an exception if the column doesn't
             exist.
 
             Args:
-                session (AsyncSession): SQLAlchemy async session
+                session (Session): SQLAlchemy session
                 updates (dict[str  |  int, Schema]): dictionary of id_ to
                     Pydantic update schema
                 column (str, optional): the column name in which to search.
@@ -221,7 +231,7 @@ def CrudFactory(model: Model):
             """
             updates = {str(id): update for id, update in updates.items() if update}
             ids = list(updates.keys())
-            db_models = await cls.get_many_by_ids(
+            db_models = cls.get_many_by_ids(
                 session, ids=ids, column=column, with_for_update=True
             )
 
@@ -234,7 +244,7 @@ def CrudFactory(model: Model):
                 session.add(db_model)
 
             try:
-                await session.commit()
+                session.commit()
             except IntegrityError:
                 raise IntegrityConflictException(
                     f"{model.__tablename__} conflict with existing data.",
@@ -244,17 +254,17 @@ def CrudFactory(model: Model):
                 return True
 
             for db_model in db_models:
-                await session.refresh(db_model)
+                session.refresh(db_model)
 
             return db_models
         
         @classmethod
-        async def remove_by_id(cls, session: AsyncSession, id_: str | int, column: str = "id",) -> int:
+        def remove_by_id(cls, session: Session, id_: str | int, column: str = "id",) -> int:
             """Removes a record from the database based on a column value. Raises an
             exception if the column doesn't exist.
 
             Args:
-                session (AsyncSession): SQLAlchemy async session
+                session (Session): SQLAlchemy session
                 id (str | int): value to search for in `column` and delete
                 column (str, optional): the column name in which to search.
                     Defaults to "id".
@@ -273,17 +283,17 @@ def CrudFactory(model: Model):
                     f"Column {column} not found on {model.__tablename__}.",
                 )
 
-            rows = await session.execute(query)
-            await session.commit()
+            rows = session.execute(query)
+            session.commit()
             return rows.rowcount
         
         @classmethod
-        async def remove_many_by_ids( cls, session: AsyncSession, ids: list[str | int], column: str = "id") -> int:
+        def remove_many_by_ids( cls, session: Session, ids: list[str | int], column: str = "id") -> int:
             """Removes multiple records from the database based on a column value.
             Raises an exception if the column doesn't exist.
 
             Args:
-                session (AsyncSession): SQLAlchemy async session
+                session (Session): SQLAlchemy session
                 ids (list[str  |  int]): list of values to search for in `column` and
                 column (str, optional): the column name in which to search.
                     Defaults to "id".
@@ -305,10 +315,10 @@ def CrudFactory(model: Model):
                     f"Column {column} not found on {model.__tablename__}.",
                 )
 
-            rows = await session.execute(query)
-            await session.commit()
+            rows = session.execute(query)
+            session.commit()
             return rows.rowcount
         
         
-    AsyncCrud.model = model
-    return AsyncCrud
+    Crud.model = model
+    return Crud

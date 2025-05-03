@@ -10,6 +10,9 @@ from repository.database import Base
 
 # Modelo de las Categorias
 
+
+# TODO: Separar los modelos aquiu y un nuevo archivo para los schemas
+
 class CategoryModel(Base):
     __tablename__ = "category"
     
