@@ -117,19 +117,8 @@ def CrudFactory(model: Model):
             if with_for_update:
                 q = q.with_for_update()
 
-            results = session.execute(q).scalars().all()
-            print(results)
-            if not results:
-                # Sin resultado
-                print("Retornando NONE")
-                return None
-            if len(results) == 1:
-                # Resultado Unico
-                print("Retornando UNICO VALOR")
-                return results[0]
-            # Multiples resultados
-            print("Retornando MULTIPLES VALORES")
-            return results
+            results = session.execute(q)
+            return results.unique().scalar_one_or_none()
         
         @classmethod
         def get_many_by_ids(cls, session: Session, ids: list[str | int] = None, column: str = "id", with_for_update: bool = False) -> list[Model]:
