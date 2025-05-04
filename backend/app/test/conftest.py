@@ -1,5 +1,5 @@
 import pytest
-from repository.repository import GenericRepository
+from app.repository.repository import GenericRepository
 
 @pytest.fixture
 def create_factory():

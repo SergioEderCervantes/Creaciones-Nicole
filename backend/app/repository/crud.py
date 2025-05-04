@@ -1,7 +1,7 @@
 from sqlalchemy import delete, select
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Session
-from repository.models import Base, BaseModel
+from app.repository.models import Base, BaseModel
 
 Model = Base 
 Schema = BaseModel

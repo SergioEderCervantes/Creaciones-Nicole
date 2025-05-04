@@ -5,6 +5,12 @@ CREATE TABLE category (
     description TEXT
 );
 
+-- Insertar categorias
+INSERT INTO category (name, description) VALUES 
+('Reposteria', 'Seccion dedicada a productos de reposteria.'),
+('Decoracion', 'Seccion dedicada a artículos de decoracion.'),
+('Carritos', 'Seccion dedicada a carritos y servicios relacionados.');
+
 -- Tabla productos
 CREATE TABLE product (
     id SERIAL PRIMARY KEY,

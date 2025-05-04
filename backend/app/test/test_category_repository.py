@@ -1,6 +1,6 @@
 import pytest
-from repository.repository import GenericRepository
-from repository.models import CategoryModel, CategorySchema
+from app.repository.repository import GenericRepository
+from app.repository.models import CategoryModel, CategorySchema
 
 @pytest.fixture
 def repo():

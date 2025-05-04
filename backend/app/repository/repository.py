@@ -1,10 +1,10 @@
 from typing import Type, Union, List
 from sqlalchemy.orm import sessionmaker
-from repository.database import cretare_pg_engine
-from repository.crud import CrudFactory
-from repository.models import Base, BaseModel
+from app.repository.database import cretare_pg_engine
+from app.repository.crud import CrudFactory
+from app.repository.models import Base, BaseModel
 from sqlalchemy.exc import MultipleResultsFound
-from repository.crud import CustomModelsException
+from app.repository.crud import CustomModelsException
 
 # Solo se crean una vez, y los repositories los comparten
 _engine = cretare_pg_engine()

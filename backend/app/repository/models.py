@@ -1,12 +1,8 @@
-from dataclasses import dataclass
-from typing import TypeAlias
-
 from pydantic import BaseModel
 from sqlalchemy import Integer, String, Text, ForeignKey, Float, Date
-from sqlalchemy.dialects.postgresql import UUID as UuidColumn
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from sqlalchemy.sql import expression
-from repository.database import Base
+from app.repository.database import Base
 
 # Modelo de las Categorias
 
@@ -25,13 +21,6 @@ class CategorySchema(BaseModel):
     description: str | None = None
     
     
-    
-    
-class CategoryUpdateSchema(BaseModel):
-    name:str | None = None
-    description: str | None = None
-    
-    
 # Modelo de los productos
 
 class ProductsModel(Base):
@@ -46,18 +35,10 @@ class ProductsModel(Base):
     
 
 class ProductSchema(BaseModel):
-    id: int
     category_id: int
     name: str
     description: str
     image: str
-
-class ProductUpdateSchema(BaseModel):
-    id: int | None = None
-    category_id: int | None = None
-    name: str | None = None
-    description: str | None = None
-    image: str | None = None
 
 
 # Modelo para las cuentas de Admin
@@ -70,7 +51,6 @@ class AdminModel(Base):
     
     
 class AdminSchema(BaseModel):
-    id: int
     name: str
     password: str
     
@@ -86,17 +66,9 @@ class OrderModel(Base):
     delivery_date: Mapped[str] = mapped_column(Date, server_default=expression.func.current_date())
 
 class OrderSchema(BaseModel):
-    id: int
     name: str
     state: str
     description: str
     amount: float
     delivery_date: str
 
-class OrderUpdateSchema(BaseModel):
-    id: int | None = None
-    name: str | None = None
-    state: str | None = None
-    description: str | None = None
-    amount: float | None = None
-    delivery_date: str | None = None

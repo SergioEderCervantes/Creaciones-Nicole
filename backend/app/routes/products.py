@@ -1,11 +1,19 @@
 from app.routes import api_bp
-from flask import request
-
+from flask import jsonify, request, Response
+from app.repository.repository import GenericRepository
+from app.repository.models import CategoryModel, CategorySchema, ProductsModel, ProductSchema
 # Rutas y endpoints relativos a la api de products
 
 @api_bp.route('/products', methods=['GET'])
-def get_sections():
-    return "<h1> get sections working </h1>"
+def get_sections() -> Response:
+    catRepo = GenericRepository(CategoryModel, CategorySchema)
+    categories:list[CategorySchema] = catRepo.to_schema(catRepo.get_all())
+    
+    response = {
+        "data": [category.model_dump() for category in categories]
+    }
+    
+    return jsonify(response)
 
 @api_bp.route('/products/<section>', methods=['GET','POST'])
 def section_products(section: str) -> str:
