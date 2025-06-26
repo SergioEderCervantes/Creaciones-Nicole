@@ -1,13 +1,33 @@
 <!doctype html>
 <html lang="en">
+
 <head>
   <meta charset="utf-8">
   <title>Frontend</title>
   <base href="/">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="icon" type="image/x-icon" href="favicon.ico">
+
+  <!--  CSS de AOS -->
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
 </head>
+
 <body>
   <app-root></app-root>
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+
+  <!-- Inicializar AOS -->
+  <!-- <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      AOS.init({
+        duration: 1000,     // duración de la animación (en ms)
+        easing: 'ease-out', // tipo de efecto
+        once: false,        // si true, la animación ocurre solo una vez
+        mirror: true,       // si las animaciones deben repetirse al hacer scroll hacia arriba
+        anchorPlacement: 'top-bottom' // punto de activación
+      });
+    });
+  </script> -->
 </body>
+
 </html>
