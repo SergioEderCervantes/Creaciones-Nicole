@@ -6,7 +6,7 @@ import { CATEGORY } from '../models/category.enum';
 @Injectable({
   providedIn: 'root'
 })
-export class ProductsServiceService {
+export class ProductsService {
 
   private products: Product[] = [
     {
