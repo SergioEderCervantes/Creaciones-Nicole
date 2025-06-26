@@ -48,11 +48,13 @@ class AdminModel(Base):
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
     name: Mapped[str] = mapped_column(String(255), nullable=False)
     password: Mapped[str] = mapped_column(nullable=False)
-    
-    
+    email: Mapped[str] = mapped_column(String(50), nullable=False)
+
+
 class AdminSchema(BaseModel):
     name: str
     password: str
+    email: str
     
 
 # Modelo para pedidos
