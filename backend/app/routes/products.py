@@ -16,11 +16,41 @@ def get_sections() -> Response:
     return jsonify(response)
 
 @api_bp.route('/products/<section>', methods=['GET','POST'])
-def section_products(section: str) -> str:
-    if request.method == "GET":
-        return f"<h1> get Products of section {section} working and i love it </h1>"
-    else:
-        return f" post Products of section {section} working "
+def section_products(section: str) -> Response:
+    try:
+        prodRepo = GenericRepository(ProductsModel, ProductSchema)
+        catRepo = GenericRepository(CategoryModel, CategorySchema)
+        
+        category: CategoryModel = catRepo.query(id_=section, column="name",with_for_update=False);
+        
+        if not category:
+            return jsonify({"error": "Categoria no encontrada"}), 404
+        
+        if request.method == "GET":
+            products = prodRepo.query(id_=category.id,column="category_id",with_for_update= False)
+            
+            products_schema = prodRepo.to_schema(products)
+            response = {
+                "data": [product.model_dump() for product in products_schema]
+            }
+            return jsonify(response)
+        elif request.method == "POST":
+            data = request.json
+            data['category_id'] = category.id
+            
+            # Tratar de construir un schema con el body del json
+            product_schema= ProductSchema(category_id=data['category_id'], name=data['name'],description=data['description'], image=data['image'])
+            new_product = prodRepo.create(product_schema)
+            
+            # Si no se creo correctamente salta error
+            if not new_product:
+                raise Exception("Model not created")
+            
+            return {"data": product_schema.model_dump()}, 201
+            
+    except Exception as e:
+        print(e)
+        return "Internal Server Error", 500
         
 @api_bp.route('/products/<section>/<id>', methods=['GET', 'PATCH', 'DELETE'])
 def get_product_by_id(section:str, id:int) -> str:
