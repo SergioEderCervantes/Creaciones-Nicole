@@ -1,6 +1,6 @@
 export enum STATE {
-    PENDING,
-    ON_IT,
-    COMPLETED,
-    CANCELLED
+    PENDING = "Pending",
+    ON_IT = "On_it",
+    COMPLETED = "Completed",
+    CANCELLED = "Cancelled"
 }

@@ -123,8 +123,18 @@ export class AdminPanelComponent {
 
   // Metodos que hacen falta:
   // Start manual fetch, el select de las tablas, todo lo relacionado a editar, borrar y agregar registros
-  onRegisterSelect(event:any):void{
-    console.log(event);
+  onRegisterSelect(event:any, type: string):void{
+    const data = event.data;
+    let summary:string;
+    let msg:string;
+    if(type == this.productType){
+      summary = "Descripcion del producto:";
+      msg = `${data.name}, ${data.description}`;
+    }else{
+      summary = "Descripcion del pedido";
+      msg = `${data.name}, ${data.description}, fecha de entrega: ${data.deliveryDate}`;
+    }
+    this.messageService.add({ severity: 'info', summary: summary, detail: msg});
   }
 
   handleEdit(type:string, id:number):void{

@@ -25,9 +25,9 @@
         </div>
         }@else {
         <!-- Contenido de la tabla -->
-        <p-table [columns]="prodCols" [value]="products" class="my-4" showGridlines stripedRows sortField="hotel"
+        <p-table [columns]="prodCols" [value]="products" class="my-4" showGridlines stripedRows sortField="category"
             [size]='(blocksState["tablaProd"].isMaximized) ? undefined : "small"' [sortOrder]="1" selectionMode="single"
-            [(selection)]="selectedProduct" metaKeySelection="true" dataKey="id" (onRowSelect)="onRegisterSelect($event)"
+            [(selection)]="selectedProduct" metaKeySelection="true" dataKey="id" (onRowSelect)="onRegisterSelect($event, productType)"
             [scrollable]="true" [scrollHeight]="(blocksState['tablaProd'].isMaximized) ? '400px' : '300px'">
             <ng-template #header let-columns>
                 <tr>
@@ -92,15 +92,16 @@
         } @else {
         <!-- Contenido de la tabla -->
         <p-toast />
-        <p-table [columns]="ordCols" [value]="orders" class="my-4" showGridlines stripedRows sortField="fecha"
+        <p-table [columns]="ordCols" [value]="orders" class="my-4" showGridlines stripedRows sortField="deliveryDate"
             [size]='(blocksState["tablaOrd"].isMaximized) ? undefined : "small"' [sortOrder]="1" selectionMode="single"
-            [(selection)]="selectedOrder" metaKeySelection="true" dataKey="id" (onRowSelect)="onRegisterSelect($event)"
+            [(selection)]="selectedOrder" metaKeySelection="true" dataKey="id" (onRowSelect)="onRegisterSelect($event, orderType)"
             [scrollable]="true" [scrollHeight]="(blocksState['tablaOrd'].isMaximized) ? '400px' : '300px'">
             <ng-template #header let-columns>
                 <tr>
                     <th pSortableColumn="state">Estado del pedido <p-sortIcon field="state" /></th>
-                    <th pSortableColumn="name">Hotel perdido <p-sortIcon field="name" /></th>
+                    <th pSortableColumn="name">Nombre del perdido <p-sortIcon field="name" /></th>
                     <th pSortableColumn="amount">Amount <p-sortIcon field="amount" /></th>
+                    <th pSortableColumn="deliveryDate">Fecha de entrega <p-sortIcon field="deliveryDate" /></th>
                     <th>Actions</th>
                 </tr>
             </ng-template>
@@ -109,6 +110,7 @@
                     <td>{{order.state}}</td>
                     <td>{{order.name}}</td>
                     <td>{{order.amount}}</td>
+                    <td>{{order.deliveryDate}}</td>
                     <td>
                         <a (click)="handleEdit(orderType, order.id)" class="icon-button mx-1 cursor-pointer">
                             <fa-icon class="hover:text-secondary transition-colors duration-200"
