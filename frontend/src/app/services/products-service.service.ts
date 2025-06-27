@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Product } from '../models/product.interface';
 import { CATEGORY } from '../models/category.enum';
+import { Category } from '../models/category.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -30,7 +31,95 @@ export class ProductsService {
       category: CATEGORY.CARRITOSNACKS,
       name: "Carrito de Palomitas",
       description: "Carrito móvil para servir palomitas en fiestas.",
-      tags: ['Snacks', 'Fiesta', 'Palomitas'],
+      tags: ['Bebidas'],
+      imageUrl: "1.jpg"
+    },
+    {
+      id: 3,
+      category: CATEGORY.CARRITOSNACKS,
+      name: "Carrito de Si",
+      description: "Carrito móvil para servir palomitas en fiestas.",
+      tags: ['Bebidas'],
+      imageUrl: "2.jpg"
+    },
+    {
+      id: 3,
+      category: CATEGORY.CARRITOSNACKS,
+      name: "Carrito de UwU",
+      description: "Carrito móvil para servir palomitas en fiestas.",
+      tags: ['Bebidas'],
+      imageUrl: "3.jpg"
+    },
+    {
+      id: 3,
+      category: CATEGORY.CARRITOSNACKS,
+      name: "Carrito de Ola",
+      description: "Carrito móvil para servir palomitas en fiestas.",
+      tags: ['Bebidas'],
+      imageUrl: "4.jpg"
+    },
+    {
+      id: 3,
+      category: CATEGORY.CARRITOSNACKS,
+      name: "Carrito de Palomitas",
+      description: "Carrito móvil para servir palomitas en fiestas.",
+      tags: ['Paletas'],
+      imageUrl: "1.jpg"
+    },
+    {
+      id: 3,
+      category: CATEGORY.CARRITOSNACKS,
+      name: "Carrito de Palomitas",
+      description: "Carrito móvil para servir palomitas en fiestas.",
+      tags: ['Paletas'],
+      imageUrl: "2.jpg"
+    },
+    {
+      id: 3,
+      category: CATEGORY.CARRITOSNACKS,
+      name: "Carrito de Palomitas",
+      description: "Carrito móvil para servir palomitas en fiestas.",
+      tags: ['Paletas'],
+      imageUrl: "3.jpg"
+    },
+    {
+      id: 3,
+      category: CATEGORY.CARRITOSNACKS,
+      name: "Carrito de Palomitas",
+      description: "Carrito móvil para servir palomitas en fiestas.",
+      tags: ['Paletas'],
+      imageUrl: "3.jpg"
+    },
+    {
+      id: 3,
+      category: CATEGORY.CARRITOSNACKS,
+      name: "Carrito de Palomitas",
+      description: "Carrito móvil para servir palomitas en fiestas.",
+      tags: ['Snacks'],
+      imageUrl: ""
+    },
+    {
+      id: 3,
+      category: CATEGORY.CARRITOSNACKS,
+      name: "Carrito de Palomitas",
+      description: "Carrito móvil para servir palomitas en fiestas.",
+      tags: ['Snacks'],
+      imageUrl: ""
+    },
+    {
+      id: 3,
+      category: CATEGORY.CARRITOSNACKS,
+      name: "Carrito de Palomitas",
+      description: "Carrito móvil para servir palomitas en fiestas.",
+      tags: ['Snacks'],
+      imageUrl: ""
+    },
+    {
+      id: 3,
+      category: CATEGORY.CARRITOSNACKS,
+      name: "Carrito de Palomitas",
+      description: "Carrito móvil para servir palomitas en fiestas.",
+      tags: ['Snacks'],
       imageUrl: ""
     },
     {

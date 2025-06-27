@@ -1,0 +1,63 @@
+<div class="p-4 space-y-12">
+  <!-- Encabezado -->
+  <div class="text-center">
+    <h1 class="text-3xl font-bold text-brown-800">Nuestros Carritos</h1>
+    <p class="text-gray-600 mt-2">Explora nuestras deliciosas opciones</p>
+  </div>
+
+  <!-- Carrusel de Bebidas -->
+  <div>
+    <h2 class="text-xl font-semibold text-brown-700 mb-2">Bebidas</h2>
+    <p-carousel [value]="bebidas" [numVisible]="3" [numScroll]="1" [circular]="true" [responsiveOptions]="responsiveOptions" autoplayInterval="3000">
+      <ng-template pTemplate="item" let-bebida>
+        <div class="rounded m-2 p-4">
+            <div class="mb-4">
+                <div class="relative mx-auto">
+                   <img src="carts/bebidas/{{bebida.imageUrl}}" [alt]="bebida.name" class="w-full rounded-border" />
+                </div>
+            </div>
+        </div>
+      </ng-template>
+    </p-carousel>
+  </div>
+
+  <!-- Carrusel de paletas -->
+  <div>
+    <h2 class="text-xl font-semibold text-brown-700 mb-2">Paletas</h2>
+    <p-carousel [value]="bebidas" [numVisible]="3" [numScroll]="1" [circular]="true" [responsiveOptions]="responsiveOptions" autoplayInterval="3000">
+      <ng-template pTemplate="item" let-paleta>
+        <div class="rounded m-2 p-4">
+            <div class="mb-4">
+                <div class="relative mx-auto">
+                   <img src="carts/paletas/{{paleta.imageUrl}}" [alt]="paleta.name" class="w-full rounded-border" />
+                </div>
+            </div>
+        </div>
+      </ng-template>
+    </p-carousel>
+  </div>
+
+  <!-- Carrusel de Chascas -->
+  <div>
+    <h2 class="text-xl font-semibold text-brown-700 mb-2">Chascas</h2>
+    <p-carousel [value]="chascas" [numVisible]="1" [numScroll]="1" [responsiveOptions]="responsiveOptions">
+      <ng-template pTemplate="item" let-item>
+        <div class="p-4">
+          <!-- Aquí va el contenido de cada item -->
+        </div>
+      </ng-template>
+    </p-carousel>
+  </div>
+
+  <!-- Carrusel de Snacks -->
+  <div>
+    <h2 class="text-xl font-semibold text-brown-700 mb-2">Snacks</h2>
+    <p-carousel [value]="snacks" [numVisible]="1" [numScroll]="1" [responsiveOptions]="responsiveOptions">
+      <ng-template pTemplate="item" let-item>
+        <div class="p-4">
+          <!-- Aquí va el contenido de cada item -->
+        </div>
+      </ng-template>
+    </p-carousel>
+  </div>
+</div>
