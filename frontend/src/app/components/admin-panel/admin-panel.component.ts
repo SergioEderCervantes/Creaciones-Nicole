@@ -83,9 +83,9 @@ export class AdminPanelComponent {
 
   validateAdmin(): void {
     // TODO Validar admin y agarrar username
-    if(!this.authService.isLogguedIn){
+    if(!this.authService.logguedIn){
       // Redirect a loguin
-      this.router.navigate(['/'])
+      this.router.navigate(['/login'])
     }
   }
 
@@ -114,6 +114,11 @@ export class AdminPanelComponent {
       { field: 'deliveryDate', header: 'Fecha de entrega' },
       { field: 'action', header: 'Accion' },
     ]
+  }
+
+  manageLogout(){
+    this.authService.logout();
+    this.router.navigate(['/'])
   }
 
   toggleMaximize(block: string): void {

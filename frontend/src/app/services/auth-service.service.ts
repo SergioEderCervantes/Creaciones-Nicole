@@ -13,19 +13,16 @@ export class AuthService {
       email: "creacionesnicole@gmail.com",
       password: "contra123"
     }
-    this.isLogguedIn = JSON.parse(localStorage.getItem("isLogguedIn") || "false");
-    localStorage.setItem("isLogguedIn", JSON.stringify(this.isLogguedIn))
+    this.logguedIn = JSON.parse(localStorage.getItem("isLogguedIn") || "false");
+    localStorage.setItem("isLogguedIn", JSON.stringify(this.logguedIn))
   }
 
-  isLogguedIn() {
-    return this.logguedIn
-  }
 
 
   login(email: string, password: string): boolean {
     if (this.admin.email === email && this.admin.password === password) {
       this.logguedIn = true;
-      localStorage.setItem("isLogguedIn", JSON.stringify(this.isLogguedIn));
+      localStorage.setItem("isLogguedIn", JSON.stringify(this.logguedIn));
       return true;
     } else {
       return false;
@@ -34,6 +31,6 @@ export class AuthService {
   
   logout(){
     this.logguedIn = false;
-    localStorage.setItem("isLogguedIn", JSON.stringify(this.isLogguedIn));
+    localStorage.setItem("isLogguedIn", JSON.stringify(this.logguedIn));
   }
 }
