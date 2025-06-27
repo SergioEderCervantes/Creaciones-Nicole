@@ -2,6 +2,5 @@
 export enum CATEGORY {
     REPOSTERIA = "Reposteria",
     DECORACION = "Decoracion",
-    CARRITOSNACKS = "Carritosnacks",
-    POSTRES = "Postres"
+    CARRITO = "Carrito",
 }

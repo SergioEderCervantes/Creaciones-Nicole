@@ -1,63 +1,134 @@
+<div class="relative w-full min-h-[180px] md:min-h-[200px] flex items-center justify-center"
+    style="clip-path: polygon(0 25%, 100% 0, 100% 75%, 0 100%)">
+    <div class="absolute inset-0 bg-[#231815]/80"></div>
+    <div class="relative z-20 text-center text-white px-4 py-8 md:py-12 max-w-2xl mx-auto">
+      <h1 class="text-3xl font-bold text-brown-800">Nuestros Carritos</h1>
+      <p class="text-md md:text-lg font-medium leading-relaxed tracking-wide">Explora nuestras deliciosas opciones</p>
+    </div>
+</div>
 <div class="p-4 space-y-12">
-  <!-- Encabezado -->
-  <div class="text-center">
-    <h1 class="text-3xl font-bold text-brown-800">Nuestros Carritos</h1>
-    <p class="text-gray-600 mt-2">Explora nuestras deliciosas opciones</p>
-  </div>
 
   <!-- Carrusel de Bebidas -->
-  <div>
-    <h2 class="text-xl font-semibold text-brown-700 mb-2">Bebidas</h2>
-    <p-carousel [value]="bebidas" [numVisible]="3" [numScroll]="1" [circular]="true" [responsiveOptions]="responsiveOptions" autoplayInterval="3000">
-      <ng-template pTemplate="item" let-bebida>
-        <div class="rounded m-2 p-4">
-            <div class="mb-4">
-                <div class="relative mx-auto">
-                   <img src="carts/bebidas/{{bebida.imageUrl}}" [alt]="bebida.name" class="w-full rounded-border" />
-                </div>
+    <h2 class="text-2xl md:text-3xl font-extrabold text-brown-800 uppercase tracking-wide text-center relative mb-6">
+    Bebidas
+    <span class="block w-16 h-1 bg-yellow-500 mx-auto mt-2 rounded-full"></span>
+    </h2>
+    <p-carousel
+    [value]="bebidas"
+    [numVisible]="3"
+    [numScroll]="1"
+    [circular]="true"
+    [responsiveOptions]="responsiveOptions"
+    autoplayInterval="3000"
+    styleClass="custom-carousel"
+    >
+        <ng-template pTemplate="item" let-product>
+            <div class="bg-white rounded-2xl shadow-lg overflow-hidden hover:scale-105 transition-transform duration-300 cursor-pointer">
+            <div class="relative h-48 md:h-56 overflow-hidden">
+                <img
+                [src]="'http://localhost:3000' + product.imageUrl"
+                [alt]="product.name"
+                class="w-full h-full object-cover"
+                />
             </div>
-        </div>
-      </ng-template>
+            <div class="p-4 text-center">
+                <h3 class="text-lg font-semibold text-brown-800">{{ product.name }}</h3>
+                <p class="text-sm text-gray-600 mt-1">{{ product.description }}</p>
+            </div>
+            </div>
+        </ng-template>
     </p-carousel>
-  </div>
 
   <!-- Carrusel de paletas -->
-  <div>
-    <h2 class="text-xl font-semibold text-brown-700 mb-2">Paletas</h2>
-    <p-carousel [value]="bebidas" [numVisible]="3" [numScroll]="1" [circular]="true" [responsiveOptions]="responsiveOptions" autoplayInterval="3000">
-      <ng-template pTemplate="item" let-paleta>
-        <div class="rounded m-2 p-4">
-            <div class="mb-4">
-                <div class="relative mx-auto">
-                   <img src="carts/paletas/{{paleta.imageUrl}}" [alt]="paleta.name" class="w-full rounded-border" />
-                </div>
+  <h2 class="text-2xl md:text-3xl font-extrabold text-brown-800 uppercase tracking-wide text-center relative mb-6">
+    Paletas
+    <span class="block w-16 h-1 bg-yellow-500 mx-auto mt-2 rounded-full"></span>
+    </h2>
+    <p-carousel
+    [value]="paletas"
+    [numVisible]="3"
+    [numScroll]="1"
+    [circular]="true"
+    [responsiveOptions]="responsiveOptions"
+    autoplayInterval="3000"
+    styleClass="custom-carousel"
+    >
+        <ng-template pTemplate="item" let-product>
+            <div class="bg-white rounded-2xl shadow-lg overflow-hidden hover:scale-105 transition-transform duration-300 cursor-pointer">
+            <div class="relative h-48 md:h-56 overflow-hidden">
+                <img
+                [src]="'http://localhost:3000' + product.imageUrl"
+                [alt]="product.name"
+                class="w-full h-full object-cover"
+                />
             </div>
-        </div>
-      </ng-template>
+            <div class="p-4 text-center">
+                <h3 class="text-lg font-semibold text-brown-800">{{ product.name }}</h3>
+                <p class="text-sm text-gray-600 mt-1">{{ product.description }}</p>
+            </div>
+            </div>
+        </ng-template>
     </p-carousel>
-  </div>
 
   <!-- Carrusel de Chascas -->
-  <div>
-    <h2 class="text-xl font-semibold text-brown-700 mb-2">Chascas</h2>
-    <p-carousel [value]="chascas" [numVisible]="1" [numScroll]="1" [responsiveOptions]="responsiveOptions">
-      <ng-template pTemplate="item" let-item>
-        <div class="p-4">
-          <!-- Aquí va el contenido de cada item -->
-        </div>
-      </ng-template>
+  <h2 class="text-2xl md:text-3xl font-extrabold text-brown-800 uppercase tracking-wide text-center relative mb-6">
+    Chascas
+    <span class="block w-16 h-1 bg-yellow-500 mx-auto mt-2 rounded-full"></span>
+    </h2>
+    <p-carousel
+    [value]="chascas"
+    [numVisible]="3"
+    [numScroll]="1"
+    [circular]="true"
+    [responsiveOptions]="responsiveOptions"
+    autoplayInterval="3000"
+    styleClass="custom-carousel"
+    >
+        <ng-template pTemplate="item" let-product>
+            <div class="bg-white rounded-2xl shadow-lg overflow-hidden hover:scale-105 transition-transform duration-300 cursor-pointer">
+            <div class="relative h-48 md:h-56 overflow-hidden">
+                <img
+                [src]="'http://localhost:3000' + product.imageUrl"
+                [alt]="product.name"
+                class="w-full h-full object-cover"
+                />
+            </div>
+            <div class="p-4 text-center">
+                <h3 class="text-lg font-semibold text-brown-800">{{ product.name }}</h3>
+                <p class="text-sm text-gray-600 mt-1">{{ product.description }}</p>
+            </div>
+            </div>
+        </ng-template>
     </p-carousel>
-  </div>
 
   <!-- Carrusel de Snacks -->
-  <div>
-    <h2 class="text-xl font-semibold text-brown-700 mb-2">Snacks</h2>
-    <p-carousel [value]="snacks" [numVisible]="1" [numScroll]="1" [responsiveOptions]="responsiveOptions">
-      <ng-template pTemplate="item" let-item>
-        <div class="p-4">
-          <!-- Aquí va el contenido de cada item -->
-        </div>
-      </ng-template>
+  <h2 class="text-2xl md:text-3xl font-extrabold text-brown-800 uppercase tracking-wide text-center relative mb-6">
+    Snacks
+    <span class="block w-16 h-1 bg-yellow-500 mx-auto mt-2 rounded-full"></span>
+    </h2>
+    <p-carousel
+    [value]="snacks"
+    [numVisible]="3"
+    [numScroll]="1"
+    [circular]="true"
+    [responsiveOptions]="responsiveOptions"
+    autoplayInterval="3000"
+    styleClass="custom-carousel"
+    >
+        <ng-template pTemplate="item" let-product>
+            <div class="bg-white rounded-2xl shadow-lg overflow-hidden hover:scale-105 transition-transform duration-300 cursor-pointer">
+            <div class="relative h-48 md:h-56 overflow-hidden">
+                <img
+                [src]="'http://localhost:3000' + product.imageUrl"
+                [alt]="product.name"
+                class="w-full h-full object-cover"
+                />
+            </div>
+            <div class="p-4 text-center">
+                <h3 class="text-lg font-semibold text-brown-800">{{ product.name }}</h3>
+                <p class="text-sm text-gray-600 mt-1">{{ product.description }}</p>
+            </div>
+            </div>
+        </ng-template>
     </p-carousel>
-  </div>
 </div>

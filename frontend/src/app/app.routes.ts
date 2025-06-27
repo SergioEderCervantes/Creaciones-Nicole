@@ -5,6 +5,7 @@ import { HomeComponent } from './components/home/home.component';
 import { AdminPanelComponent } from './components/admin-panel/admin-panel.component';
 import { ReposteriaComponent } from './components/reposteria/reposteria.component';
 import { CartComponent } from './components/cart/cart.component';
+import { LoginComponent } from './components/login/login.component';
 
 export const routes: Routes = [
     
@@ -13,4 +14,5 @@ export const routes: Routes = [
     {path: 'admin',component:AdminPanelComponent},
     {path: 'reposteria',component:ReposteriaComponent},
     {path: 'carts',component:CartComponent},
+    {path: 'login',component:LoginComponent},
 ];

@@ -9,8 +9,7 @@ import { Category } from '../models/category.interface';
 })
 export class ProductsService {
 
-  private products: Product[] = [
-    {
+  private products: Product[] = JSON.parse(localStorage.getItem("products")!) || [   {
       id: 1,
       category: CATEGORY.REPOSTERIA,
       name: "Pastel XV",
@@ -229,13 +228,20 @@ export class ProductsService {
     return this.products.filter((p) => p.tags.includes(tag));
   }
 
+  addProduct(product: Product): boolean {
+    this.products.push(product);
+    localStorage.setItem("products", JSON.stringify(this.products));
+    return true;
+  }
+
   editProduct(id: number, newProduct: Product): boolean {
     // Implementar con Put
     return true;
   }
 
   deleteProduct(id: number): boolean {
-    // Implementar con delete
+    this.products = this.products.filter(p => p.id !== id);
+    localStorage.setItem('products', JSON.stringify(this.products));
     return true;
   }
 
