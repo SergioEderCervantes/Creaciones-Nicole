@@ -15,8 +15,8 @@ export class ProductsService {
       category: CATEGORY.REPOSTERIA,
       name: "Pastel XV",
       description: "",
-      tags: ['XV', 'Elegante'],
-      imageUrl: ""
+      tags: ['XV'],
+      imageUrl: "pasteleria.jpg"
     },
     {
       id: 2,
@@ -24,7 +24,7 @@ export class ProductsService {
       name: "Centro de Mesa Floral",
       description: "Decoración elegante para mesas de eventos.",
       tags: ['Flores', 'Mesa', 'Evento'],
-      imageUrl: ""
+      imageUrl: "pasteleria.jpg"
     },
     {
       id: 3,
@@ -128,8 +128,73 @@ export class ProductsService {
       name: "Mesa de Postres",
       description: "Variedad de postres para eventos especiales.",
       tags: ['Dulces', 'Evento', 'Mesa'],
-      imageUrl: ""
-    }
+      imageUrl: "pasteleria.jpg"
+    },
+    {
+      id: 5,
+      category: CATEGORY.REPOSTERIA,
+      name: "Pastel Elegante",
+      description: "",
+      tags: ['Elegante'],
+      imageUrl: "pastelElegante.jpg"
+    },
+    {
+      id: 6,
+      category: CATEGORY.REPOSTERIA,
+      name: "Pastel Elegante",
+      description: "",
+      tags: ['Elegante'],
+      imageUrl: "pastelElegante2.jpg"
+    },
+    {
+      id: 7,
+      category: CATEGORY.REPOSTERIA,
+      name: "Pastel elegante",
+      description: "",
+      tags: [ 'Elegante'],
+      imageUrl: "pastelfresa.jpg"
+    },
+    {
+      id: 8,
+      category: CATEGORY.REPOSTERIA,
+      name: "Pastel XV lindo",
+      description: "",
+      tags: [ 'XV'],
+      imageUrl: "pasteleria.jpg"
+    },
+    {
+      id: 9,
+      category: CATEGORY.REPOSTERIA,
+      name: "Pastel XV lindo",
+      description: "",
+      tags: [ 'XV'],
+      imageUrl: "pasteleria.jpg"
+    },
+    {
+      id: 10,
+      category: CATEGORY.REPOSTERIA,
+      name: "Pastel Elegante",
+      description: "",
+      tags: ['Elegante'],
+      imageUrl: "pastelElegante.jpg"
+    },
+    {
+      id: 11,
+      category: CATEGORY.REPOSTERIA,
+      name: "Pastel Elegante",
+      description: "",
+      tags: ['Elegante'],
+      imageUrl: "pastelElegante2.jpg"
+    },
+    {
+      id: 12,
+      category: CATEGORY.REPOSTERIA,
+      name: "Pastel elegante",
+      description: "",
+      tags: [ 'Elegante'],
+      imageUrl: "pastelfresa.jpg"
+    },
+
   ];
 
   constructor(private http: HttpClient) { }
