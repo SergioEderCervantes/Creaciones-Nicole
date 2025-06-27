@@ -1,0 +1,79 @@
+<p-dialog header="Agregar Producto" [(visible)]="visible" [modal]="true" (onHide)="close()" [style]="{width: '35vw'}" [dismissableMask]="true">
+  <div class="p-fluid space-y-4">
+    
+    <!-- Categoría -->
+    <div>
+      <label for="categoria" class="block font-semibold mb-1">Categoría</label>
+      <p-dropdown 
+        [options]="categorias"
+        [(ngModel)]="producto.category"
+        placeholder="Selecciona una categoría"
+        inputId="categoria"
+        class="w-full"
+        [showClear]="true"
+        [autoDisplayFirst]="false"
+        [filter]="true">
+      </p-dropdown>
+    </div>
+
+    <!-- Nombre -->
+    <div>
+      <label for="nombre" class="block font-semibold mb-1">Nombre</label>
+      <input pInputText id="nombre" [(ngModel)]="producto.name" class="w-full" />
+    </div>
+
+    <!-- Etiquetas -->
+    <div>
+      <label for="etiquetas" class="block font-semibold mb-1">Etiquetas</label>
+      <input pInputText id="etiquetas" [(ngModel)]="tagsInput" placeholder="" class="w-full" />
+    </div>
+
+    <!-- Descripción -->
+     <div>
+      <label for="descripcion" class="block font-semibold mb-1">Descripción</label>
+      <input pInputText id="descripcion" [(ngModel)]="producto.description" placeholder="" class="w-full" />
+    </div>
+
+    <!-- Imagen -->
+    <div>
+        <label class="block font-semibold mb-1">Imagen</label>
+
+        <div class="border-2 border-dashed border-gray-300 rounded-md p-4 text-center space-y-3">
+            
+            <i class="pi pi-image text-3xl text-gray-400"></i>
+
+            <div class="flex flex-col items-center gap-2">
+            <label 
+                for="imagenInput" 
+                class="p-button p-component cursor-pointer">
+                Seleccionar imagen
+            </label>
+
+            <input 
+                id="imagenInput"
+                type="file" 
+                accept="image/*" 
+                (change)="onImageSelect($event)" 
+                class="hidden"
+            />
+
+            <span *ngIf="producto.imageUrl" class="text-sm text-green-600 font-medium">
+                Imagen seleccionada: {{ producto.imageUrl.name }}
+            </span>
+
+            <img 
+                *ngIf="previewUrl" 
+                [src]="previewUrl" 
+                alt="Vista previa" 
+                class="w-32 h-32 object-cover rounded shadow border border-gray-300" />
+            </div>
+        </div>
+    </div>
+
+  </div>
+
+  <ng-template pTemplate="footer">
+    <button pButton label="Cancelar" icon="pi pi-times" (click)="close()" class="p-button-text" ></button>
+    <button pButton label="Guardar" icon="pi pi-check" (click)="saveProduct()" ></button>
+  </ng-template>
+</p-dialog>

@@ -9,193 +9,14 @@ import { Category } from '../models/category.interface';
 })
 export class ProductsService {
 
-  private products: Product[] = [
-    {
+  private products: Product[] = JSON.parse(localStorage.getItem("products")!) || [   {
       id: 1,
       category: CATEGORY.REPOSTERIA,
       name: "Pastel XV",
       description: "",
       tags: ['XV'],
       imageUrl: "pasteleria.jpg"
-    },
-    {
-      id: 2,
-      category: CATEGORY.DECORACION,
-      name: "Centro de Mesa Floral",
-      description: "Decoración elegante para mesas de eventos.",
-      tags: ['Flores', 'Mesa', 'Evento'],
-      imageUrl: "pasteleria.jpg"
-    },
-    {
-      id: 3,
-      category: CATEGORY.CARRITOSNACKS,
-      name: "Carrito de Palomitas",
-      description: "Carrito móvil para servir palomitas en fiestas.",
-      tags: ['Bebidas'],
-      imageUrl: "1.jpg"
-    },
-    {
-      id: 3,
-      category: CATEGORY.CARRITOSNACKS,
-      name: "Carrito de Si",
-      description: "Carrito móvil para servir palomitas en fiestas.",
-      tags: ['Bebidas'],
-      imageUrl: "2.jpg"
-    },
-    {
-      id: 3,
-      category: CATEGORY.CARRITOSNACKS,
-      name: "Carrito de UwU",
-      description: "Carrito móvil para servir palomitas en fiestas.",
-      tags: ['Bebidas'],
-      imageUrl: "3.jpg"
-    },
-    {
-      id: 3,
-      category: CATEGORY.CARRITOSNACKS,
-      name: "Carrito de Ola",
-      description: "Carrito móvil para servir palomitas en fiestas.",
-      tags: ['Bebidas'],
-      imageUrl: "4.jpg"
-    },
-    {
-      id: 3,
-      category: CATEGORY.CARRITOSNACKS,
-      name: "Carrito de Palomitas",
-      description: "Carrito móvil para servir palomitas en fiestas.",
-      tags: ['Paletas'],
-      imageUrl: "1.jpg"
-    },
-    {
-      id: 3,
-      category: CATEGORY.CARRITOSNACKS,
-      name: "Carrito de Palomitas",
-      description: "Carrito móvil para servir palomitas en fiestas.",
-      tags: ['Paletas'],
-      imageUrl: "2.jpg"
-    },
-    {
-      id: 3,
-      category: CATEGORY.CARRITOSNACKS,
-      name: "Carrito de Palomitas",
-      description: "Carrito móvil para servir palomitas en fiestas.",
-      tags: ['Paletas'],
-      imageUrl: "3.jpg"
-    },
-    {
-      id: 3,
-      category: CATEGORY.CARRITOSNACKS,
-      name: "Carrito de Palomitas",
-      description: "Carrito móvil para servir palomitas en fiestas.",
-      tags: ['Paletas'],
-      imageUrl: "3.jpg"
-    },
-    {
-      id: 3,
-      category: CATEGORY.CARRITOSNACKS,
-      name: "Carrito de Palomitas",
-      description: "Carrito móvil para servir palomitas en fiestas.",
-      tags: ['Snacks'],
-      imageUrl: ""
-    },
-    {
-      id: 3,
-      category: CATEGORY.CARRITOSNACKS,
-      name: "Carrito de Palomitas",
-      description: "Carrito móvil para servir palomitas en fiestas.",
-      tags: ['Snacks'],
-      imageUrl: ""
-    },
-    {
-      id: 3,
-      category: CATEGORY.CARRITOSNACKS,
-      name: "Carrito de Palomitas",
-      description: "Carrito móvil para servir palomitas en fiestas.",
-      tags: ['Snacks'],
-      imageUrl: ""
-    },
-    {
-      id: 3,
-      category: CATEGORY.CARRITOSNACKS,
-      name: "Carrito de Palomitas",
-      description: "Carrito móvil para servir palomitas en fiestas.",
-      tags: ['Snacks'],
-      imageUrl: ""
-    },
-    {
-      id: 4,
-      category: CATEGORY.POSTRES,
-      name: "Mesa de Postres",
-      description: "Variedad de postres para eventos especiales.",
-      tags: ['Dulces', 'Evento', 'Mesa'],
-      imageUrl: "pasteleria.jpg"
-    },
-    {
-      id: 5,
-      category: CATEGORY.REPOSTERIA,
-      name: "Pastel Elegante",
-      description: "",
-      tags: ['Elegante'],
-      imageUrl: "pastelElegante.jpg"
-    },
-    {
-      id: 6,
-      category: CATEGORY.REPOSTERIA,
-      name: "Pastel Elegante",
-      description: "",
-      tags: ['Elegante'],
-      imageUrl: "pastelElegante2.jpg"
-    },
-    {
-      id: 7,
-      category: CATEGORY.REPOSTERIA,
-      name: "Pastel elegante",
-      description: "",
-      tags: [ 'Elegante'],
-      imageUrl: "pastelfresa.jpg"
-    },
-    {
-      id: 8,
-      category: CATEGORY.REPOSTERIA,
-      name: "Pastel XV lindo",
-      description: "",
-      tags: [ 'XV'],
-      imageUrl: "pasteleria.jpg"
-    },
-    {
-      id: 9,
-      category: CATEGORY.REPOSTERIA,
-      name: "Pastel XV lindo",
-      description: "",
-      tags: [ 'XV'],
-      imageUrl: "pasteleria.jpg"
-    },
-    {
-      id: 10,
-      category: CATEGORY.REPOSTERIA,
-      name: "Pastel Elegante",
-      description: "",
-      tags: ['Elegante'],
-      imageUrl: "pastelElegante.jpg"
-    },
-    {
-      id: 11,
-      category: CATEGORY.REPOSTERIA,
-      name: "Pastel Elegante",
-      description: "",
-      tags: ['Elegante'],
-      imageUrl: "pastelElegante2.jpg"
-    },
-    {
-      id: 12,
-      category: CATEGORY.REPOSTERIA,
-      name: "Pastel elegante",
-      description: "",
-      tags: [ 'Elegante'],
-      imageUrl: "pastelfresa.jpg"
-    },
-
-  ];
+    }];
 
   constructor(private http: HttpClient) { }
 
@@ -212,13 +33,20 @@ export class ProductsService {
     return this.products.filter((p) => p.tags.includes(tag));
   }
 
+  addProduct(product: Product): boolean {
+    this.products.push(product);
+    localStorage.setItem("products", JSON.stringify(this.products));
+    return true;
+  }
+
   editProduct(id: number, newProduct: Product): boolean {
     // Implementar con Put
     return true;
   }
 
   deleteProduct(id: number): boolean {
-    // Implementar con delete
+    this.products = this.products.filter(p => p.id !== id);
+    localStorage.setItem('products', JSON.stringify(this.products));
     return true;
   }
 

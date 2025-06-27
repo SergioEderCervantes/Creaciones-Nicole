@@ -21,7 +21,7 @@
         } @else {
         @if (products.length === 0) {
         <div class="w-full my-8">
-            <p class="text-2xl font-bold">No existen reservaciones registradas por el momento</p>
+            <p class="text-2xl font-bold">No existen productos registradas por el momento</p>
         </div>
         }@else {
         <!-- Contenido de la tabla -->
@@ -33,8 +33,8 @@
                 <tr>
                     <th pSortableColumn="category">Categoria <p-sortIcon field="category" /></th>
                     <th pSortableColumn="nombre">Nombre <p-sortIcon field="nombre" /></th>
-                    <th pSortableColumn="tags">Tags <p-sortIcon field="tags" /></th>
-                    <th>Actions</th>
+                    <th pSortableColumn="tags">Etiquetas <p-sortIcon field="tags" /></th>
+                    <th>Acción</th>
                 </tr>
             </ng-template>
             <ng-template #body let-prod>
@@ -43,11 +43,11 @@
                     <td>{{prod.name}}</td>
                     <td>{{prod.tags}}</td>
                     <td>
-                        <a (click)="handleEdit(productType, prod.id)" class="icon-button mx-1 cursor-pointer">
+                        <a (click)="handleEdit('productType', prod.id)" class="icon-button mx-1 cursor-pointer">
                             <fa-icon class="hover:text-secondary transition-colors duration-200"
                                 [icon]="editIcon"></fa-icon>
                         </a>
-                        <a (click)="handleDelete(productType, prod.id)" class="icon-button mx-1 cursor-pointer">
+                        <a (click)="handleDelete('productType', prod.id)" class="icon-button mx-1 cursor-pointer">
                             <fa-icon class="hover:text-secondary transition-colors duration-200"
                                 [icon]="deleteIcon"></fa-icon>
                         </a>
@@ -57,7 +57,7 @@
         </p-table>
         }
         }
-        <button (click)="handleNew(productType)"
+        <button (click)="handleNew('productType')"
             class="group flex items-center justify-between w-10 h-10 px-[11px] mt-4 cursor-pointer border border-gray-400 rounded-full bg-gray-200 hover:w-35 hover:bg-gray-300 transition-all duration-300 ">
             <fa-icon class="group-hover:text-secondary" [icon]="addIcon"></fa-icon>
             <span
@@ -127,7 +127,7 @@
         }
         }
 
-        <button (click)="handleNew(orderType)"
+        <button (click)="handleNew('orderType')"
             class="group flex items-center justify-between w-10 h-10 px-[11px] mt-4 cursor-pointer border border-gray-400 rounded-full bg-gray-200 hover:w-35 hover:bg-gray-300 transition-all duration-300 ">
             <fa-icon class="group-hover:text-secondary" [icon]="addIcon"></fa-icon>
             <span
@@ -138,3 +138,4 @@
     </div>
 
 </div>
+<app-add-product [(visible)] = "showProductPopUp" (productoGuardado)="onProductoGuardado($event)"></app-add-product>
