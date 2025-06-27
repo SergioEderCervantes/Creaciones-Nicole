@@ -83,6 +83,10 @@ export class AdminPanelComponent {
 
   validateAdmin(): void {
     // TODO Validar admin y agarrar username
+    if(!this.authService.isLogguedIn){
+      // Redirect a loguin
+      this.router.navigate(['/'])
+    }
   }
 
   fetchData(): void {
