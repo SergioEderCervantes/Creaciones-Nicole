@@ -140,4 +140,4 @@
     </div>
 
 </div>
-<app-add-product [(visible)] = "showProductPopUp" (productoGuardado)="onProductoGuardado($event)"></app-add-product>
+<app-add-product [data]="productData" [(visible)] = "showProductPopUp" (editedProduct)="onProductoeditado($event)" (productoGuardado)="onProductoGuardado($event)"></app-add-product>

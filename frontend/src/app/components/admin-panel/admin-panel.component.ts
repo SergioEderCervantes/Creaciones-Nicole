@@ -63,7 +63,8 @@ export class AdminPanelComponent {
   deleteIcon = faTrashAlt;
   addIcon = faPlusCircle;
 
-
+  // Edicion
+  productData!: any;
 
   constructor(
     private authService: AuthService,
@@ -83,7 +84,7 @@ export class AdminPanelComponent {
 
   validateAdmin(): void {
     // TODO Validar admin y agarrar username
-    if(!this.authService.logguedIn){
+    if (!this.authService.logguedIn) {
       // Redirect a loguin
       this.router.navigate(['/login'])
     }
@@ -116,7 +117,7 @@ export class AdminPanelComponent {
     ]
   }
 
-  manageLogout(){
+  manageLogout() {
     this.authService.logout();
     this.router.navigate(['/'])
   }
@@ -136,51 +137,75 @@ export class AdminPanelComponent {
 
   // Metodos que hacen falta:
   // Start manual fetch, el select de las tablas, todo lo relacionado a editar, borrar y agregar registros
-  onRegisterSelect(event:any, type: string):void{
+  onRegisterSelect(event: any, type: string): void {
     const data = event.data;
-    let summary:string;
-    let msg:string;
-    if(type == this.productType){
+    let summary: string;
+    let msg: string;
+    if (type == this.productType) {
       summary = "Descripcion del producto:";
       msg = `${data.name}, ${data.description}`;
-    }else{
+    } else {
       summary = "Descripcion del pedido";
       msg = `${data.name}, ${data.description}, fecha de entrega: ${data.deliveryDate}`;
     }
     //this.messageService.add({ severity: 'info', summary: summary, detail: msg});
   }
 
-  handleEdit(type:string, id:number):void{
+  handleEdit(type: string, id: number): void {
     console.log("EDITANDO");
-    if(type == "productType") {
-      this.productSrv.deleteProduct(id);
-    }
+    this.productData = this.products.find((p) => p.id === id);
+    this.showProductPopUp = true;
   }
 
-  handleDelete(type:string, id:number): void{
-    if(type == "productType") {
+  handleDelete(type: string, id: number): void {
+    if (type == "productType") {
       console.log("Borrando");
       this.productSrv.deleteProduct(id);
+      this.updateFake(this.productType);
     }
   }
 
-  handleNew(type:string): void{
-    if(type == "productType") {
+  handleNew(type: string): void {
+    if (type == "productType") {
       this.showProductPopUp = true;
     }
   }
 
-  onProductoGuardado(nuevo: Omit<Product, 'id' >) {
+  onProductoGuardado(nuevo: Omit<Product, 'id'>) {
     const productoCompleto: Product = {
       ...nuevo,
       id: this.generarIdUnico(),
       //imageUrl: 'ruta/temporal.jpg' // aquí puedes usar lo que obtengas del backend
     };
     this.productSrv.addProduct(productoCompleto);
+    this.updateFake(this.productType)
   }
 
+  onProductoeditado(nuevo: Product) {
+    console.log("Asi llega al panel: ", nuevo);
+    this.productSrv.editProduct(nuevo.id, nuevo);
+    this.updateFake(this.productType);
+  }
+
+  updateFake(type: string) {
+    if (type === this.productType) {
+      this.setLoading("tablaProd", true);
+      setTimeout(() => {
+        this.products = this.productSrv.getProducts();
+        this.setLoading("tablaProd", false);
+      }, 1000);
+
+    } else {
+      this.setLoading("tablaOrd", true);
+      setTimeout(() => {
+        this.orders = this.orderSrv.getOrders();
+        this.setLoading("tablaOrd", false);
+      }, 1000);
+
+    }
+  }
   generarIdUnico(): number {
     return Date.now();
   }
-  
+
 }
