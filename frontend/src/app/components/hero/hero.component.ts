@@ -1,16 +1,17 @@
 import { Component,OnInit } from '@angular/core';
+import { RouterModule } from '@angular/router';
+import { HomeComponent } from "../home/home.component";
 
 declare var AOS: any;
 
 @Component({
   selector: 'app-hero',
-  imports: [],
+  imports: [RouterModule],
   templateUrl: './hero.component.html',
   styleUrl: './hero.component.css'
 })
 export class HeroComponent {
   ngOnInit() {
-    // Inicializar AOS
     AOS.init({
       duration: 1000,
       easing: 'ease-out',
