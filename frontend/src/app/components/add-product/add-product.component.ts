@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output, SimpleChanges } from '@angular/core';
 import { Product } from '../../models/product.interface';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
@@ -39,17 +39,19 @@ export class AddProductComponent {
   imageUrl: undefined
   };
 
-
-
   tagsInput: string = '';
   previewUrl: string | null = null;
 
   constructor(private http: HttpClient) {}
 
+  ngOnChanges(changes: SimpleChanges): void {
+    
+  }
   onImageSelect(event: Event) {
     const input = event.target as HTMLInputElement;
     if (input.files?.length) {
       this.producto.imageUrl = input.files[0];
+      this.previewUrl = URL.createObjectURL(this.producto.imageUrl);
     }
     console.log(this.producto.imageUrl);
   }
