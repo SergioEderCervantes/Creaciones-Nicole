@@ -16,11 +16,12 @@ import { TableModule } from 'primeng/table';
 import { ToastModule } from 'primeng/toast';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { AddProductComponent } from '../add-product/add-product.component';
+import { AddOrderComponent } from '../add-order/add-order.component';
 
 @Component({
   selector: 'app-admin-panel',
   standalone: true,
-  imports: [CommonModule, FontAwesomeModule, ChartModule, TableModule, ToastModule, ProgressSpinnerModule, AddProductComponent],
+  imports: [CommonModule, FontAwesomeModule, ChartModule, TableModule, ToastModule, ProgressSpinnerModule, AddProductComponent, AddOrderComponent],
   templateUrl: './admin-panel.component.html',
   styleUrls: ['./admin-panel.component.css'],
   providers: [MessageService]
@@ -44,6 +45,7 @@ export class AdminPanelComponent {
 
   //Popuos
   showProductPopUp: boolean = false;
+  showOrderPopUp: boolean = false;
 
   // Prueba de tabla ccon primeNG
   prodCols: Column[] = [];
@@ -63,7 +65,11 @@ export class AdminPanelComponent {
   deleteIcon = faTrashAlt;
   addIcon = faPlusCircle;
 
+  // Edicion
+  productData!: any;
 
+  // Dieg: aqui va a ir la data de los pedidos cuando se editen
+  orderData!:any;
 
   constructor(
     private authService: AuthService,
@@ -150,23 +156,31 @@ export class AdminPanelComponent {
     //this.messageService.add({ severity: 'info', summary: summary, detail: msg});
   }
 
-  handleEdit(type:string, id:number):void{
-    console.log("EDITANDO");
-    if(type == "productType") {
-      this.productSrv.deleteProduct(id);
+  handleEdit(type: string, id: number): void {
+    if (type == "productType") {
+      this.productData = this.products.find((p) => p.id === id);
+      this.showProductPopUp = true;
+    } else {
+      this.orderData = this.orders.find((o) => o.id === id);
+      this.showOrderPopUp = true;
     }
   }
 
-  handleDelete(type:string, id:number): void{
-    if(type == "productType") {
-      console.log("Borrando");
+  handleDelete(type: string, id: number): void {
+    if (type == "productType") {
       this.productSrv.deleteProduct(id);
+      this.updateFake(this.productType);
+    } else{
+      this.orderSrv.deleteOrder(id);
+      this.updateFake(this.orderType);
     }
   }
 
   handleNew(type:string): void{
     if(type == "productType") {
       this.showProductPopUp = true;
+    } else if(type == "orderType") {
+      this.showOrderPopUp = true;
     }
   }
 
@@ -177,6 +191,46 @@ export class AdminPanelComponent {
       //imageUrl: 'ruta/temporal.jpg' // aquí puedes usar lo que obtengas del backend
     };
     this.productSrv.addProduct(productoCompleto);
+    this.updateFake(this.productType)
+  }
+  onProductoeditado(nuevo: Product) {
+    console.log("Asi llega al panel: ", nuevo);
+    this.productSrv.editProduct(nuevo.id, nuevo);
+    this.updateFake(this.productType);
+  }
+  
+  onPedidoGuardado(nuevo: Omit<Order, 'id' >) {
+    const pedidoCompleto: Order = {
+      ...nuevo,
+      id: this.generarIdUnico(),
+    };
+    this.orderSrv.addOrder(pedidoCompleto);
+    this.updateFake(this.orderType)
+  }
+  onPedidoeditado(nuevo: Order) {
+    console.log("Asi llega al panel: ", nuevo);
+    this.orderSrv.editOrder(nuevo.id, nuevo);
+    this.updateFake(this.orderType);
+  }
+
+
+
+  updateFake(type: string) {
+    if (type === this.productType) {
+      this.setLoading("tablaProd", true);
+      setTimeout(() => {
+        this.products = this.productSrv.getProducts();
+        this.setLoading("tablaProd", false);
+      }, 1000);
+
+    } else {
+      this.setLoading("tablaOrd", true);
+      setTimeout(() => {
+        this.orders = this.orderSrv.getOrders();
+        this.setLoading("tablaOrd", false);
+      }, 1000);
+
+    }
   }
 
   generarIdUnico(): number {

@@ -19,19 +19,19 @@
     <!-- Nombre -->
     <div>
       <label for="nombre" class="block font-semibold mb-1">Nombre</label>
-      <input pInputText id="nombre" [(ngModel)]="producto.name" class="w-full" />
+      <input pInputText id="nombre" [(ngModel)]="producto.name" class="w-full" placeholder="Ej: Cupcakes de chocolate"/>
     </div>
 
     <!-- Etiquetas -->
     <div>
       <label for="etiquetas" class="block font-semibold mb-1">Etiquetas</label>
-      <input pInputText id="etiquetas" [(ngModel)]="tagsInput" placeholder="" class="w-full" />
+      <input pInputText id="etiquetas" [(ngModel)]="tagsInput" placeholder="Ej: dulce, chocolate, cumpleaños" class="w-full" />
     </div>
 
     <!-- Descripción -->
      <div>
       <label for="descripcion" class="block font-semibold mb-1">Descripción</label>
-      <input pInputText id="descripcion" [(ngModel)]="producto.description" placeholder="" class="w-full" />
+      <input pInputText id="descripcion" [(ngModel)]="producto.description" placeholder="Escribe una breve descripción del producto" class="w-full" />
     </div>
 
     <!-- Imagen -->

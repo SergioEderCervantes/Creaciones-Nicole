@@ -1,1 +1,56 @@
-<p>add-order works!</p>
+<p-dialog header="Agregar Producto" [(visible)]="visible" [modal]="true" (onHide)="close()" [style]="{width: '35vw'}" [dismissableMask]="true">
+  <div class="p-fluid space-y-4">
+    
+    <!-- Estado del pedido -->
+    <div>
+      <label for="estado" class="block font-semibold mb-1">Estado del pedido</label>
+      <p-dropdown 
+        [options]="estados"
+        [(ngModel)]="order.state"
+        placeholder="Selecciona el estado de pedido"
+        inputId="estado"
+        class="w-full"
+        [showClear]="true"
+        [autoDisplayFirst]="false"
+        [filter]="true">
+      </p-dropdown>
+    </div>
+
+    <!-- Nombre -->
+    <div>
+      <label for="nombre" class="block font-semibold mb-1">Nombre del pedido</label>
+      <input pInputText id="nombre" [(ngModel)]="order.name" class="w-full" placeholder="Ej: Pedido de pastel" />
+    </div>
+
+    <!-- Monto -->
+    <div>
+        <label for="amount" class="block font-semibold mb-1">Monto</label>
+        <input pInputText id="amount" type="number" [(ngModel)]="order.amount" class="w-full" placeholder="Ej: 150" (focus)="order.amount === 0 ? order.amount = null : null"/>
+    </div>
+
+    <!-- Descripción -->
+     <div>
+      <label for="descripcion" class="block font-semibold mb-1">Descripción</label>
+      <input pInputText id="descripcion" [(ngModel)]="order.description" placeholder="Selecciona una fecha" class="w-full" />
+    </div>
+
+    <!-- Fecha de Entrega -->
+    <div>
+        <label for="deliveryDate" class="block font-semibold mb-1">Fecha de Entrega</label>
+        <p-calendar 
+            [(ngModel)]="fechaEntrega" 
+            inputId="deliveryDate" 
+            dateFormat="dd/mm/yy" 
+            showIcon="true" 
+            class="w-full" 
+            [showButtonBar]="true">
+        </p-calendar>
+    </div>
+
+  </div>
+
+  <ng-template pTemplate="footer">
+    <button pButton label="Cancelar" icon="pi pi-times" (click)="close()" class="p-button-text" ></button>
+    <button pButton label="Guardar" icon="pi pi-check" (click)="saveOrder()" ></button>
+  </ng-template>
+</p-dialog>

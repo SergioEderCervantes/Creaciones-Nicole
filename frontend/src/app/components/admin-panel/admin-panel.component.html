@@ -102,9 +102,9 @@
                 <tr>
                     <th pSortableColumn="state">Estado del pedido <p-sortIcon field="state" /></th>
                     <th pSortableColumn="name">Nombre del perdido <p-sortIcon field="name" /></th>
-                    <th pSortableColumn="amount">Amount <p-sortIcon field="amount" /></th>
+                    <th pSortableColumn="amount">Monto <p-sortIcon field="amount" /></th>
                     <th pSortableColumn="deliveryDate">Fecha de entrega <p-sortIcon field="deliveryDate" /></th>
-                    <th>Actions</th>
+                    <th>Acción</th>
                 </tr>
             </ng-template>
             <ng-template #body let-order>
@@ -114,11 +114,11 @@
                     <td>{{order.amount}}</td>
                     <td>{{order.deliveryDate}}</td>
                     <td>
-                        <a (click)="handleEdit(orderType, order.id)" class="icon-button mx-1 cursor-pointer">
+                        <a (click)="handleEdit('orderType', order.id)" class="icon-button mx-1 cursor-pointer">
                             <fa-icon class="hover:text-secondary transition-colors duration-200"
                                 [icon]="editIcon"></fa-icon>
                         </a>
-                        <a (click)="handleDelete(orderType, order.id)" class="icon-button mx-1 cursor-pointer">
+                        <a (click)="handleDelete('orderType', order.id)" class="icon-button mx-1 cursor-pointer">
                             <fa-icon class="hover:text-secondary transition-colors duration-200"
                                 [icon]="deleteIcon"></fa-icon>
                         </a>
@@ -140,4 +140,5 @@
     </div>
 
 </div>
-<app-add-product [(visible)] = "showProductPopUp" (productoGuardado)="onProductoGuardado($event)"></app-add-product>
+<app-add-product [data]="productData" [(visible)] = "showProductPopUp" (editedProduct)="onProductoeditado($event)" (productoGuardado)="onProductoGuardado($event)"></app-add-product>
+<app-add-order [data]="orderData" [(visible)] = "showOrderPopUp" (editedOrder)="onPedidoeditado($event)" (pedidoGuardado)="onPedidoGuardado($event)"></app-add-order>
