@@ -33,7 +33,7 @@ export class CarouselComponent {
 
   // Excluir la categoría CARRITOSNACKS
   const categories = Object.values(CATEGORY).filter(
-    (category) => category !== CATEGORY.CARRITOSNACKS
+    (category) => category !== CATEGORY.CARRITO
   );
 
   // Agrupar productos por categoría (excepto la excluida)
