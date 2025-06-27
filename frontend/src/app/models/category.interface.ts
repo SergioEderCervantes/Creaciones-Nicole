@@ -1,5 +1,13 @@
+import { CATEGORY } from "./category.enum";
+
 export interface Category{
-    id: number,
-    name: string,
-    description: string
+    name: CATEGORY,
+    subcategory: SUBCATEGORY
+}
+
+export enum SUBCATEGORY {
+    BEBIDAS = "Bebidas",
+    PALETAS = "Paletas",
+    CHASCAS = "Chascas",
+    SNACKS = "Snacks"
 }

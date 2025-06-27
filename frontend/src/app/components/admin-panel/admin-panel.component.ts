@@ -15,11 +15,12 @@ import { ChartModule } from 'primeng/chart';
 import { TableModule } from 'primeng/table';
 import { ToastModule } from 'primeng/toast';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
+import { AddProductComponent } from '../add-product/add-product.component';
 
 @Component({
   selector: 'app-admin-panel',
   standalone: true,
-  imports: [CommonModule, FontAwesomeModule, ChartModule, TableModule, ToastModule, ProgressSpinnerModule],
+  imports: [CommonModule, FontAwesomeModule, ChartModule, TableModule, ToastModule, ProgressSpinnerModule, AddProductComponent],
   templateUrl: './admin-panel.component.html',
   styleUrls: ['./admin-panel.component.css'],
   providers: [MessageService]
@@ -38,8 +39,11 @@ export class AdminPanelComponent {
   // Arrays que devuelven los observables para reservaciones y extravios
   products: Product[] = [];
   orders: Order[] = []
+  productoSeleccionado: Product | null = null;
 
 
+  //Popuos
+  showProductPopUp: boolean = false;
 
   // Prueba de tabla ccon primeNG
   prodCols: Column[] = [];
@@ -134,18 +138,40 @@ export class AdminPanelComponent {
       summary = "Descripcion del pedido";
       msg = `${data.name}, ${data.description}, fecha de entrega: ${data.deliveryDate}`;
     }
-    this.messageService.add({ severity: 'info', summary: summary, detail: msg});
+    //this.messageService.add({ severity: 'info', summary: summary, detail: msg});
   }
 
   handleEdit(type:string, id:number):void{
     console.log("EDITANDO");
+    if(type == "productType") {
+      this.productSrv.deleteProduct(id);
+    }
   }
 
   handleDelete(type:string, id:number): void{
-
+    if(type == "productType") {
+      console.log("Borrando");
+      this.productSrv.deleteProduct(id);
+    }
   }
 
   handleNew(type:string): void{
-    
+    if(type == "productType") {
+      this.showProductPopUp = true;
+    }
   }
+
+  onProductoGuardado(nuevo: Omit<Product, 'id' >) {
+    const productoCompleto: Product = {
+      ...nuevo,
+      id: this.generarIdUnico(),
+      //imageUrl: 'ruta/temporal.jpg' // aquí puedes usar lo que obtengas del backend
+    };
+    this.productSrv.addProduct(productoCompleto);
+  }
+
+  generarIdUnico(): number {
+    return Date.now();
+  }
+  
 }
