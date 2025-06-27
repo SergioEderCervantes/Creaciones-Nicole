@@ -8,7 +8,7 @@ import { AdminPanelComponent } from './components/admin-panel/admin-panel.compon
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet,NavbarComponent,HomeComponent,RouterModule,HeroComponent, ButtonModule, AdminPanelComponent],
+  imports: [RouterOutlet,NavbarComponent,RouterModule, ButtonModule, AdminPanelComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
