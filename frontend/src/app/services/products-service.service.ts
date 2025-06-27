@@ -24,7 +24,7 @@ export class ProductsService {
       name: "Centro de Mesa Floral",
       description: "Decoración elegante para mesas de eventos.",
       tags: ['Flores', 'Mesa', 'Evento'],
-      imageUrl: "pasteleria.jpg"
+      imageUrl: "D1.jpeg"
     },
     {
       id: 3,
@@ -193,6 +193,22 @@ export class ProductsService {
       description: "",
       tags: [ 'Elegante'],
       imageUrl: "pastelfresa.jpg"
+    },
+    {
+      id: 13,
+      category: CATEGORY.DECORACION,
+      name: "Centro de Mesa",
+      description: "Decoración elegante para mesas de eventos.",
+      tags: ['Flores', 'Mesa', 'Evento'],
+      imageUrl: "D2.jpeg"
+    },
+    {
+      id: 14,
+      category: CATEGORY.DECORACION,
+      name: "Centro de Mesa",
+      description: "Decoración elegante para mesas de eventos.",
+      tags: ['Flores', 'Mesa', 'Evento'],
+      imageUrl: "D3.jpeg"
     },
 
   ];

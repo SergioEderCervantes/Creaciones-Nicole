@@ -23,33 +23,51 @@ export class CarouselComponent {
 
     selectedCategory = CATEGORY.REPOSTERIA;
 
-  categoryGroups: { category: CATEGORY; products: Product[] }[] = [];
+  tagGroups: { tag: string; products: Product[] }[] = [];
 
 
     constructor(private productsService: ProductsService) {}
 
     ngOnInit() {
-  const allProducts = this.productsService.getProducts();
+        const allProducts = this.productsService.getProducts();
 
-  // Excluir la categoría CARRITOSNACKS
-  const categories = Object.values(CATEGORY).filter(
-    (category) => category !== CATEGORY.CARRITOSNACKS
-  );
+        const filteredByCategory = allProducts.filter(
+        (p) => p.category === this.selectedCategory
+        );
 
-  // Agrupar productos por categoría (excepto la excluida)
-  this.categoryGroups = categories.map((category) => ({
-    category,
-    products: allProducts.filter((p) => p.category === category)
-  }));
+        const uniqueTags = new Set<string>();
+        filteredByCategory.forEach((p) => p.tags.forEach((tag) => uniqueTags.add(tag)));
 
-  // Opciones de carrusel responsivas
-  this.responsiveOptions = [
-    { breakpoint: '1400px', numVisible: 2, numScroll: 1 },
-    { breakpoint: '1199px', numVisible: 3, numScroll: 1 },
-    { breakpoint: '767px', numVisible: 2, numScroll: 1 },
-    { breakpoint: '575px', numVisible: 1, numScroll: 1 }
-  ];
-}
+        this.tagGroups = Array.from(uniqueTags).map((tag) => ({
+        tag,
+        products: filteredByCategory.filter((p) => p.tags.includes(tag)),
+        }));
+        
+
+
+        this.responsiveOptions = [
+            {
+                breakpoint: '1400px',
+                numVisible: 2,
+                numScroll: 1,
+            },
+            {
+                breakpoint: '1199px',
+                numVisible: 3,
+                numScroll: 1,
+            },
+            {
+                breakpoint: '767px',
+                numVisible: 2,
+                numScroll: 1,
+            },
+            {
+                breakpoint: '575px',
+                numVisible: 1,
+                numScroll: 1,
+            },
+        ];
+    }
 
     getSeverity(status: string) {
     switch (status) {
