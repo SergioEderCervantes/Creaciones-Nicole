@@ -66,6 +66,9 @@ export class AdminPanelComponent {
   // Edicion
   productData!: any;
 
+  // Dieg: aqui va a ir la data de los pedidos cuando se editen
+  orderData!:any;
+
   constructor(
     private authService: AuthService,
     private router: Router,
@@ -148,26 +151,35 @@ export class AdminPanelComponent {
       summary = "Descripcion del pedido";
       msg = `${data.name}, ${data.description}, fecha de entrega: ${data.deliveryDate}`;
     }
-    //this.messageService.add({ severity: 'info', summary: summary, detail: msg});
+    this.messageService.add({ severity: 'info', summary: summary, detail: msg});
   }
 
   handleEdit(type: string, id: number): void {
-    console.log("EDITANDO");
-    this.productData = this.products.find((p) => p.id === id);
-    this.showProductPopUp = true;
+    if (type == "productType") {
+      this.productData = this.products.find((p) => p.id === id);
+      this.showProductPopUp = true;
+    } else {
+      // Diego aqui agarras la data del pedido, si copias la logica del add-product al formulario de las orders, esto funciona cn madre
+      // this.orderData = this.orders.find((o) => o.id === id);
+      // this.showOrderPopUp = true;
+    }
   }
 
   handleDelete(type: string, id: number): void {
     if (type == "productType") {
-      console.log("Borrando");
       this.productSrv.deleteProduct(id);
       this.updateFake(this.productType);
+    } else{
+      this.orderSrv.deleteOrder(id);
+      this.updateFake(this.orderType);
     }
   }
 
   handleNew(type: string): void {
     if (type == "productType") {
       this.showProductPopUp = true;
+    } else {
+      // this.showOrderPopUp = true;
     }
   }
 
@@ -180,6 +192,24 @@ export class AdminPanelComponent {
     this.productSrv.addProduct(productoCompleto);
     this.updateFake(this.productType)
   }
+
+  // Diego llama a esta funcion cuando se termine de editar un pedido
+  onPedidoeditado(nuevo: Order) {
+    console.log("Asi llega al panel: ", nuevo);
+    this.orderSrv.editOrder(nuevo.id, nuevo);
+    this.updateFake(this.orderType);
+  }
+
+  // Diego aqui implementa la logica que tienes para añadir un producto pero para reservaciones
+  // onPedidoGuardado(nuevo: Omit<Product, 'id'>) {
+    // const productoCompleto: Product = {
+    //   ...nuevo,
+    //   id: this.generarIdUnico(),
+    //   //imageUrl: 'ruta/temporal.jpg' // aquí puedes usar lo que obtengas del backend
+    // };
+    // this.productSrv.addProduct(productoCompleto);
+    // this.updateFake(this.orderType)
+  // }
 
   onProductoeditado(nuevo: Product) {
     console.log("Asi llega al panel: ", nuevo);

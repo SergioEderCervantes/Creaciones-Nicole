@@ -2,66 +2,49 @@ import { Injectable } from '@angular/core';
 import { Order } from '../models/order.interface';
 import { STATE } from '../models/state.enum';
 import { HttpClient } from '@angular/common/http';
+import { ORDERS } from '../models/orders.array';
 
 @Injectable({
   providedIn: 'root'
 })
 export class OrdersService {
 
-  private orders: Order[] = [
-    {
-      id: 1,
-      state: STATE.PENDING,
-      description: "Carrito donde se sirva mojitos, Cheves y clericot",
-      name: "Carrito de bebidas",
-      amount: 2000,
-      deliveryDate: "20/06/2025"
-    },
-    {
-      id: 2,
-      state: STATE.PENDING,
-      description: "Mesa de postres con variedad de dulces y pasteles",
-      name: "Mesa de postres",
-      amount: 1500,
-      deliveryDate: "22/06/2025"
-    },
-    {
-      id: 3,
-      state: STATE.PENDING,
-      description: "Servicio de barra de café con barista profesional",
-      name: "Barra de café",
-      amount: 1800,
-      deliveryDate: "25/06/2025"
-    },
-    {
-      id: 4,
-      state: STATE.PENDING,
-      description: "Carrito de snacks con papas, palomitas y nachos",
-      name: "Carrito de snacks",
-      amount: 1200,
-      deliveryDate: "28/06/2025"
-    }
-  ];
+  private orders: Order[] = JSON.parse(localStorage.getItem("orders")!) || ORDERS
 
   constructor(private http: HttpClient) {
 
   }
 
-  getOrders(): Order[]{
+  getOrders(): Order[] {
     return this.orders;
   }
 
-  getOrderById(id: number): Order | undefined{
+  getOrderById(id: number): Order | undefined {
     return this.orders.find((o) => o.id == id);
   }
 
-  editOrder(id:number, newOrder: Order): boolean{
-    // Implementar con Put
+  addOrder(order: Order) {
+    this.orders.push(order);
+    this.saveToLocalStorage();
     return true;
   }
-  
-  deleteOrder(id:number):boolean{
-    // Implementar con delete
+
+  editOrder(id: number, newOrder: Order): boolean {
+    this.orders = this.orders.map((order) =>
+      (order.id === id) ? newOrder : order
+    );
+    this.saveToLocalStorage();
     return true;
+  }
+
+  deleteOrder(id: number): boolean {
+    // Implementar con delete
+    this.orders = this.orders.filter(p => p.id !== id);
+    this.saveToLocalStorage();
+    return true;
+  }
+
+  saveToLocalStorage(): void {
+    localStorage.setItem('orders', JSON.stringify(this.orders));
   }
 }
