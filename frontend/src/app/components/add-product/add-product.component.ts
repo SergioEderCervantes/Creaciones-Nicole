@@ -77,23 +77,16 @@ export class AddProductComponent {
   const formData = new FormData();
   formData.append('image', this.producto.imageUrl);
 
-  this.http.post<{ imageUrl: string }>('http://localhost:3000/upload', formData).subscribe({
-    next: (res) => {
-      const productoFinal: Omit<Product, 'id'> = {
-        category: this.producto.category,
-        name: this.producto.name,
-        description: this.producto.description,
-        tags: this.producto.tags,
-        imageUrl: res.imageUrl // obtenido del backend
-      };
+  const productoFinal: Omit<Product, 'id'> = {
+    category: this.producto.category,
+    name: this.producto.name,
+    description: this.producto.description,
+    tags: this.producto.tags,
+    imageUrl: "pastelMemo.jpg" // obtenido del backend
+  };
 
-      this.productoGuardado.emit(productoFinal);
-      this.close();
-    },
-    error: (err) => {
-      console.error('Error al subir imagen:', err);
-    }
-  });
+  this.productoGuardado.emit(productoFinal);
+  this.close();
   }
 
   close() {

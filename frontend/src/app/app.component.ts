@@ -6,6 +6,7 @@ import { HeroComponent } from './components/hero/hero.component';
 import { ButtonModule } from 'primeng/button';
 import { AdminPanelComponent } from './components/admin-panel/admin-panel.component';
 import { FooterComponent } from './components/footer/footer.component';
+import { AuthService } from './services/auth-service.service';
 
 @Component({
   selector: 'app-root',
@@ -15,4 +16,6 @@ import { FooterComponent } from './components/footer/footer.component';
 })
 export class AppComponent {
   title = 'frontend';
+
+  constructor(private auth: AuthService){}
 }

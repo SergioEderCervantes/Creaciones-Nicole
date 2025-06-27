@@ -23,51 +23,33 @@ export class CarouselComponent {
 
     selectedCategory = CATEGORY.REPOSTERIA;
 
-  tagGroups: { tag: string; products: Product[] }[] = [];
+  categoryGroups: { category: CATEGORY; products: Product[] }[] = [];
 
 
     constructor(private productsService: ProductsService) {}
 
     ngOnInit() {
-        const allProducts = this.productsService.getProducts();
+  const allProducts = this.productsService.getProducts();
 
-        const filteredByCategory = allProducts.filter(
-        (p) => p.category === this.selectedCategory
-        );
+  // Excluir la categoría CARRITOSNACKS
+  const categories = Object.values(CATEGORY).filter(
+    (category) => category !== CATEGORY.CARRITO
+  );
 
-        const uniqueTags = new Set<string>();
-        filteredByCategory.forEach((p) => p.tags.forEach((tag) => uniqueTags.add(tag)));
+  // Agrupar productos por categoría (excepto la excluida)
+  this.categoryGroups = categories.map((category) => ({
+    category,
+    products: allProducts.filter((p) => p.category === category)
+  }));
 
-        this.tagGroups = Array.from(uniqueTags).map((tag) => ({
-        tag,
-        products: filteredByCategory.filter((p) => p.tags.includes(tag)),
-        }));
-        
-
-
-        this.responsiveOptions = [
-            {
-                breakpoint: '1400px',
-                numVisible: 2,
-                numScroll: 1,
-            },
-            {
-                breakpoint: '1199px',
-                numVisible: 3,
-                numScroll: 1,
-            },
-            {
-                breakpoint: '767px',
-                numVisible: 2,
-                numScroll: 1,
-            },
-            {
-                breakpoint: '575px',
-                numVisible: 1,
-                numScroll: 1,
-            },
-        ];
-    }
+  // Opciones de carrusel responsivas
+  this.responsiveOptions = [
+    { breakpoint: '1400px', numVisible: 2, numScroll: 1 },
+    { breakpoint: '1199px', numVisible: 3, numScroll: 1 },
+    { breakpoint: '767px', numVisible: 2, numScroll: 1 },
+    { breakpoint: '575px', numVisible: 1, numScroll: 1 }
+  ];
+}
 
     getSeverity(status: string) {
     switch (status) {
