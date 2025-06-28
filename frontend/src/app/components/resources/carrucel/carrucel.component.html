@@ -1,11 +1,12 @@
 @for (group of categoryGroups; track group) {
-  <section class="p-10 bg-white/70 backdrop-blur-md rounded-xl">
+  <section class="p-8 md:p-12 my-8 bg-white/60 backdrop-blur-md rounded-3xl shadow-lg ring-1 ring-pink-100">
 
     <!-- Encabezado por categoría -->
-    <div class="flex justify-center items-center gap-3 mb-5">
-      <h2 class="text-2xl font-bold text-blue-700 uppercase tracking-wide">
+    <div class="text-center mb-6">
+      <h2 class="text-3xl md:text-4xl font-extrabold text-pink-500 uppercase tracking-wider drop-shadow">
         {{ group.category }}
       </h2>
+      <div class="mt-2 w-20 h-1 mx-auto bg-yellow-400 rounded-full"></div>
     </div>
 
     <!-- Carrusel -->
@@ -16,37 +17,40 @@
       [circular]="true"
       [responsiveOptions]="responsiveOptions"
       autoplayInterval="4000"
+      showIndicators="false"
     >
-      <ng-template let-product #item>
+      <ng-template pTemplate="item" let-product>
         <div
-          class="h-[28rem] border border-gray-200 rounded-xl m-2 p-4 bg-white shadow-sm hover:shadow-md transition"
+          class="bg-white rounded-2xl shadow-xl overflow-hidden m-3 hover:scale-[1.03] transition-transform duration-300"
         >
-          <div class="mb-4">
-            <div class="relative mx-auto">
-              <img
-                [src]="product.imageUrl"
-                [alt]="product.name"
-                class="w-full h-80 object-cover rounded-lg"
-              />
-              <p-tag
-                [value]="product.inventoryStatus"
-                [severity]="getSeverity(product.inventoryStatus)"
-                class="absolute"
-                [ngStyle]="{ 'left.px': 5, 'top.px': 5 }"
-              />
-            </div>
+          <!-- Imagen con etiqueta -->
+          <div class="relative h-60 md:h-72">
+            <img
+              [src]="product.imageUrl"
+              [alt]="product.name"
+              class="w-full h-full object-cover"
+            />
+            <p-tag
+              [value]="product.inventoryStatus"
+              [severity]="getSeverity(product.inventoryStatus)"
+              class="absolute left-3 top-3"
+            />
           </div>
 
-          <div class="mb-2 text-center font-semibold text-lg text-gray-800">
-            {{ product.name }}
-          </div>
+          <!-- Información -->
+          <div class="p-4 text-center">
+            <h3 class="text-lg font-bold text-brown-800">{{ product.name }}</h3>
+            <p class="text-sm text-gray-600 mt-1 line-clamp-2">{{ product.description }}</p>
 
-          <div class="flex justify-between items-center mt-2">
-            <div class="font-bold text-xl ">
-              {{ product.description }}
-            </div>
-            <div class="flex space-x-2">
-              <p-button icon="pi pi-heart" severity="secondary" [outlined]="true" />
+            <div class="mt-4 flex justify-center gap-2">
+              <a href="https://wa.me/524494468730" target="_blank" rel="noopener noreferrer">
+                <p-button
+                  icon="pi pi-whatsapp"
+                  severity="success"
+                  styleClass="p-button-rounded p-button-sm"
+                  label=""
+                ></p-button>
+              </a>
             </div>
           </div>
         </div>
