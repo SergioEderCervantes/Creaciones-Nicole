@@ -8,6 +8,7 @@ import { DialogModule } from 'primeng/dialog';
 import { ButtonModule } from 'primeng/button';
 import { CATEGORY } from '../../models/category.enum';
 import { HttpClient } from '@angular/common/http';
+import { UploadsServiceService } from '../../services/uploads-service.service';
 
 @Component({
   selector: 'app-add-product',
@@ -45,8 +46,9 @@ export class AddProductComponent {
 
   tagsInput: string = '';
   previewUrl: string | null = null;
+  newURL: string = '';
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private uploadService: UploadsServiceService) { }
 
   ngOnInit(){
     console.log('Valor en el hijo ngOnInit:', this.data);
@@ -63,6 +65,8 @@ export class AddProductComponent {
         this.producto.category = this.data.category;
         this.producto.description = this.data.description;
         this.producto.tags = this.data.tags;
+        this.previewUrl = 'https://backcreacionesnicole.onrender.com' + this.data.imageUrl;
+        console.log(this.data)
       }
     }
   }
@@ -92,33 +96,83 @@ export class AddProductComponent {
       return;
     }
 
-    const formData = new FormData();
-    formData.append('image', this.producto.imageUrl);
+    // const formData = new FormData();
+    // formData.append('image', this.producto.imageUrl);
 
-    const productoFinal: Omit<Product, 'id'> = {
-      category: this.producto.category,
-      name: this.producto.name,
-      description: this.producto.description,
-      tags: this.producto.tags,
-      imageUrl: "pastelMemo.jpg", // obtenido del backend
-    };
+    //------------------LO QUE FUNIONA --------------------
+    // const productoFinal: Omit<Product, 'id'> = {
+    //   category: this.producto.category,
+    //   name: this.producto.name,
+    //   description: this.producto.description,
+    //   tags: this.producto.tags,
+    //   imageUrl: "pastelMemo.jpg", // obtenido del backend
+    // };
 
-    this.productoGuardado.emit(productoFinal);
-    this.close();
+    
+
+    // this.productoGuardado.emit(productoFinal);
+    // this.close();
+
+    this.uploadService.subirImagen(this.producto.imageUrl).subscribe({
+    next: (res) => {
+      const productoFinal: Omit<Product, 'id'> = {
+        category: this.producto.category,
+        name: this.producto.name,
+        description: this.producto.description,
+        tags: this.producto.tags,
+        imageUrl: res.imageUrl // ⚠️ Respuesta del backend
+      };
+
+      this.productoGuardado.emit(productoFinal);
+      this.close();
+    },
+    error: (err) => {
+      console.error('Error al subir imagen:', err);
+      }
+    });
   }
 
   saveEdit(){
-    // Pa no complicar, construimos un newData con lo de los formularios mas lo de la data
-    const productEdited: Product = {
-      id: this.data?.id ?? 0,
-      category: this.producto.category,
-      name: this.producto.name,
-      description: this.producto.description,
-      tags: this.producto.tags,
-      imageUrl: this.data?.imageUrl ?? ''
-    };
-    this.editedProduct.emit(productEdited);
-    this.close();
+    //Para cambiar la imagen
+    if (!this.producto.imageUrl) {
+      console.error('No se seleccionó imagen');
+      if(this.data?.imageUrl) {
+        const productEdited: Product = {
+        id: this.data?.id ?? 0,
+        category: this.producto.category,
+        name: this.producto.name,
+        description: this.producto.description,
+        tags: this.producto.tags,
+        imageUrl: this.data?.imageUrl
+      };
+      this.editedProduct.emit(productEdited);
+      this.close();
+      }
+      return;
+    }
+    this.uploadService.subirImagen(this.producto.imageUrl).subscribe({
+    next: (res) => {
+      this.newURL = res.imageUrl // ⚠️ Respuesta del backend
+      // Pa no complicar, construimos un newData con lo de los formularios mas lo de la data
+      
+      const productEdited: Product = {
+        id: this.data?.id ?? 0,
+        category: this.producto.category,
+        name: this.producto.name,
+        description: this.producto.description,
+        tags: this.producto.tags,
+        //imageUrl: this.data?.imageUrl ?? ''
+        imageUrl: this.newURL
+      };
+      this.editedProduct.emit(productEdited);
+      this.close();
+    },
+    error: (err) => {
+      console.error('Error al subir imagen:', err);
+      }
+    });
+
+    
   }
 
   close() {
@@ -137,6 +191,7 @@ export class AddProductComponent {
     };
     this.tagsInput = '';
     this.previewUrl = null;
+    this.newURL = '';
   }
 
 }
